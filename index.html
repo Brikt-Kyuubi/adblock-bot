@@ -185,7 +185,7 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
     </ul>
     <button class="btn" id="go">Start surfing</button>
     <p class="note" id="mbest"></p>
-    <p class="note">v8.2 · all reklamen i spillet er for våre egne prosjekter</p>
+    <p class="note">v8.3 · all reklamen i spillet er for våre egne prosjekter</p>
   </div>
   <div class="screen" id="lu" hidden></div>
   <div class="screen" id="clear" hidden></div>
@@ -395,7 +395,8 @@ function showPop(type){const el=document.createElement('div');el.className='pop 
   el.innerHTML=(BPOP[type]&&type!=='kyuchat'&&Math.random()<.5?'<button class="fx fl" data-f aria-label="Lukk">✕</button>':'')+POPT[type]()+(U.blocker?'<div class="blk"><i></i></div>':'');
   const psy=P.y-camY+HUD,used=PV.map(p=>p.slot),free=[0,1,2].filter(s=>!used.includes(s)).sort((a,b)=>Math.abs(SLOTY[b]+100-psy)-Math.abs(SLOTY[a]+100-psy)),slot=free[0];
   el.style.left=rnd(20,W-(type==='notif'?272:262))+'px';el.style.top=(SLOTY[slot]+rnd(-8,8))+'px';
-  popsEl.appendChild(el);PV.push({el,type,t:0,slot});SFX.ad()}
+  popsEl.appendChild(el);PV.push({el,type,t:0,slot});fitPop(el);el.querySelectorAll('img').forEach(im=>{if(!im.complete)im.addEventListener('load',()=>fitPop(el),{once:true})});SFX.ad()}
+function fitPop(el){const h=el.offsetHeight,max=H-h-12,top=parseFloat(el.style.top);if(top>max)el.style.top=Math.max(HUD+6,max)+'px'}
 function closePop(p,auto){if(!PV.includes(p))return;p.el.remove();PV=PV.filter(x=>x!==p);st.pop++;SFX.close();
   FL.push({x:clamp(parseFloat(p.el.style.left)+120+camX,camX+70,camX+VW-70),y:parseFloat(p.el.style.top)-HUD+camY+10,t:auto?'blokkert automatisk':'lukket',c:'#0a7f8f',l:1});if(PQ.length)popDelay=.35}
 popsEl.addEventListener('pointerdown',e=>{const el=e.target.closest('.pop');if(!el||mode!=='play')return;e.stopPropagation();const p=PV.find(x=>x.el===el);if(!p)return;
@@ -458,7 +459,7 @@ function showEnd(){mode='end';const ms=Math.round(tot.time*1000);let best=0;try{
   clearEl.hidden=false;
   document.getElementById('again').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()});
   lbSetup(ms)}
-const VERSION='v8.2';
+const VERSION='v8.3';
 const LB={url:'https://fhdouutorqgdrwjhjdkz.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoZG91dXRvcnFnZHJ3amhqZGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwMTA5NDEsImV4cCI6MjA2NTU4Njk0MX0.nTLlHG44cOtrd6m5uC2WvQ7zRstd3onOzqqe0lnPuU4',table:'adblock_scores'}; /* Supabase: prosjekt-URL og publishable/anon-nøkkel. Tomt = toppliste av. */
 const lbOn=()=>!!(LB.url&&LB.key),lbHead=()=>({apikey:LB.key,Authorization:'Bearer '+LB.key,'Content-Type':'application/json'});
 async function lbTop(n){const r=await fetch(`${LB.url}/rest/v1/${LB.table}?select=name,time_ms&order=time_ms.asc&limit=${n}`,{headers:lbHead()});if(!r.ok)throw new Error(r.status);return r.json()}
