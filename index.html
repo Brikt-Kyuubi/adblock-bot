@@ -141,6 +141,14 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
 .pt-kyuubi .chath{background:linear-gradient(90deg,#EA5C2A,#F7941D);font-family:Poppins,sans-serif}.pt-kyuubi .chip2{border-color:#EA5C2A;color:#EA5C2A;font-family:Poppins,sans-serif}.pt-kyuubi .bub{font-style:normal}
 .fx.fl{right:auto;left:-16px}
 .mlogo{height:40px;width:auto;align-self:flex-start;background:#fff;border-radius:10px;padding:6px 10px;margin-bottom:16px}
+.pt-brikt{font-family:Rubik,system-ui,sans-serif;color:#1d2939}
+.pt-brikt .lnh{display:flex;justify-content:space-between;align-items:center;padding:8px 8px 6px 14px;font:600 12px Rubik,sans-serif;color:#5b6573;border-bottom:1px solid #eef0f4;min-height:40px}
+.pt-brikt .bb{padding-top:12px}.pt-brikt .bub{margin:0 0 10px}
+.lnp{display:flex;gap:10px;align-items:center;margin-bottom:10px}.lnp b{display:block;font-size:15px}.lnp small{display:block;font-size:11px;color:#6b7280;line-height:1.3}
+.lav{flex:none;width:46px;height:46px;border-radius:50%;background:#EDF0FE;box-shadow:0 0 0 3px #3B55EB;display:grid;place-items:center}.lav img{height:24px}
+.lnb{display:flex;justify-content:flex-end;gap:8px}
+.lnok{border:0;border-radius:20px;padding:10px 18px;background:#3B55EB;color:#fff;font:600 13px Rubik,sans-serif;cursor:pointer}
+.lnig{border:0;background:none;color:#5b6573;font:600 13px Rubik,sans-serif;padding:10px 6px;cursor:pointer}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes popin{from{transform:scale(.4);opacity:0}}
 @keyframes cardin{from{transform:translateY(18px);opacity:0}}
@@ -195,9 +203,9 @@ const BAN=['BLACK WEEK – HELE ÅRET','SISTE SJANSE (IGJEN)','GRATIS FRAKT* *ik
 const LV=[
  {name:'DagensKlikk',url:'dagensklikk.no/nyheter/sjokk',color:'#c8102e',nav:'Nyheter · Sport · Kjendis',kind:'news',data:10,trI:1.25,adI:3.3,diff:1,wh:2000},
  {name:'Tilbudsjungelen',url:'tilbudsjungelen.no/black-week',color:'#1d3fd1',nav:'Tilbud · Mer tilbud · Kasse',kind:'shop',data:12,trI:1.0,adI:2.6,diff:1.15,wh:2000},
- {name:'Scrollr',url:'scrollr.no/@hypehedda/live',color:'#14141c',nav:'Feed · Reels · Butikk',kind:'feed',boss:true,data:8,trI:2.1,adI:9,diff:1.2,ww:720,wh:1100}];
-const FEED=[[40,170,'@reisemedrolf','#cfe3f7'],[530,190,'@matmedmia','#fde2c8'],[40,620,'@gymgutten','#d8efd9'],[530,600,'@kattenkarl','#efe0f5'],[285,830,'@sponsetsiri','#ffe3ec']];
-const SAY=['Denne strømmen er sponset av Morokoppen!','Swipe up for PopUpGolf!','Bruk koden HEDDA20 hos Jee Hee!','Hei alle sammen!','Lenke i bio!','Bruk koden HEDDA20!','Dette er IKKE sponset*','Husk å like og dele!','Unboxing-tid!','Swipe up!','Samarbeid med ... alle'];
+ {name:'Nettverket',url:'nettverket.no/in/lagkassabrikt',color:'#1d2939',nav:'Hjem · Nettverk · Meldinger',kind:'feed',boss:true,data:8,trI:2.1,adI:9,diff:1.2,ww:720,wh:1100}];
+const FEED=[[40,170,'Glad for å kunne dele at Lagkassa+ fikk en ny kunde i dag.'],[530,190,'Hva bryllupet mitt lærte meg om lagkasser.'],[40,620,'5 ting kassereren lærte meg om livet. Nr. 3: Lagkassa+.'],[530,600,'Kasserer er ikke en tittel. Det er et kall.'],[285,830,'Dag 312 med innlegg om Lagkassa+.']];
+const SAY=['Glad for å kunne dele: Lagkassa+','Hva kan en dugnad lære oss om B2B?','Kasserer er ikke en tittel. Det er et kall.','Ydmyk og takknemlig. Mest Lagkassa+.','Dag 312 med innlegg om Lagkassa+','Enig? Skriv LAGKASSA i kommentarfeltet','Unpopular opinion: regnskapet er fasiten','Følg for mer om klubbøkonomi','Ingen utropstegn. Selv nå.','Jeg ble spurt om mitt beste salgstips'];
 const ADS=[
  {h:'GRATULERER!',p:'Du er besøkende nr. 1 000 000! Krev premien din nå.',b:'Krev premie',bg:'#ffe14d'},
  {h:'Leger HATER dette trikset',p:'Lokal bot fant hemmeligheten. Se hvordan.',b:'Les mer',bg:'#ffd1e8'},
@@ -242,7 +250,11 @@ const BPOP={
  golfcode:()=>`<div class="bph"><img src="${LOGO_SRC.golf}" alt="PopUpGolf"><button class="rx2" data-r aria-label="Lukk">×</button></div><div class="bb"><div class="cap">Kun i dag</div><div class="h1">Koden <span>FORE15</span></div><div class="tmr" data-tmr>04:59</div><p>15 % på leie av simulatoren til julebordet.</p><button class="cbtn" data-f>Kopier og book</button></div>`,
  jeewheel:()=>`<div class="bph"><img src="${LOGO_SRC.jeehee}" alt="Nails by Jee Hee"><button class="rx2" data-r aria-label="Lukk">×</button></div><div class="bb"><div class="cap">Lykkehjulet</div><div class="h1">Snurr og vinn et gratis negledesign</div><div class="wheel"></div><button class="cbtn" data-f>Snurr nå</button></div>`,
  kyuchat:()=>`<div class="chath"><span>Kitsune fra Kyuubi · pålogget</span><button class="rx" data-r aria-label="Minimer">–</button></div><div class="bub">Hei! Jeg ser du har vært her i ${Math.max(1,clock|0)} sekunder. Trenger nettsiden din mer tydelighet? Denne gjør i hvert fall det.</div><div class="chips"><button class="chip2" data-f>Ja, start et prosjekt</button><button class="chip2" data-f>Hvorfor heter dere Kyuubi?</button></div>`};
-const BFAKE={kyuubi:'Prosjekt startet! Første leveranse: én pop-up',jeehee:'Time booket: én pop-up, 45 minutter',golf:'Hole-in-one … i pop-up-køen',moro:'Kopp i kurven. Pop-up i køen.',lk:'Konto opprettet. Første bilag: en pop-up',
+Object.assign(BPOP,{
+ brikt:()=>`<div class="lnh"><span>Nettverket</span><button class="rx2" data-r aria-label="Lukk">×</button></div><div class="bb"><div class="lnp"><span class="lav"><img src="${LOGO_SRC.lk_s}" alt=""></span><div><b>LagkassaBrikt</b><small>Product Owner hos Lagkassa+ · Snakker om Lagkassa+</small></div></div><p>Vil koble seg til deg. Felles forbindelser: alle kasserere i Norge.</p><div class="lnb"><button class="lnig" data-r>Ignorer</button><button class="lnok" data-f>Godta</button></div></div>`,
+ briktdm:()=>`<div class="lnh"><span>Meldinger</span><span></span></div><div class="bb"><div class="lnp"><span class="lav"><img src="${LOGO_SRC.lk_s}" alt=""></span><div><b>LagkassaBrikt</b><small>Aktiv nå</small></div></div><div class="bub">Hei. Takk for at du koblet deg til. Har dere kontroll på lagkassene? Jeg har en demo på 15 minutter.</div><div class="lnb"><button class="lnig" data-r>Merk som lest</button><button class="lnok" data-f>Book demo</button></div></div>`});
+POPCLASS.brikt='brikt';POPCLASS.briktdm='brikt';
+const BFAKE={brikt:'Tilkoblet. Brikt har sendt deg en demo.',briktdm:'Demo booket. 45 minutter om Lagkassa+.',kyuubi:'Prosjekt startet! Første leveranse: én pop-up',jeehee:'Time booket: én pop-up, 45 minutter',golf:'Hole-in-one … i pop-up-køen',moro:'Kopp i kurven. Pop-up i køen.',lk:'Konto opprettet. Første bilag: en pop-up',
  moronews:'Takk! Du får nå 14 e-poster om kopper',golfcode:'Kode kopiert. Og en pop-up til',jeewheel:'Du vant … en pop-up til',kyuchat:'Kitsune skriver … for alltid'};
 function lsp(v){try{ctx.letterSpacing=v+'px'}catch(e){}}
 function logoW(k,h){const im=LIMG[k];return im&&im.naturalWidth?h*im.naturalWidth/im.naturalHeight:0}
@@ -311,8 +323,8 @@ function mkAd(k,x,y,w,h,i,gate){const base={lb:12,mr:9,sky:6,vid:10}[k],mhp=Math
   return{k,x,y,w,h,hp:mhp,mhp,flash:0,shk:0,oc:0,gate:!!gate,t:ADTXT[k][i%ADTXT[k].length],cr:Array.from({length:6},()=>[rnd(.15,.85),rnd(.2,.8),rnd(-1,1),rnd(-1,1)])}}
 function gate(gy,ads,gi){const g=GATES[Math.random()*GATES.length|0];let x=0;const bj=Math.random()<.65?(Math.random()*g.length|0):-1;g.forEach(([k,f],j)=>{const w=j===g.length-1?WW-x:Math.round(WW*f);{const a=mkAd(k,x,gy,w,100,gi*3+j,true);a.brand=nextBrand();ads.push(a)};x+=w})}
 function genPage(kind){const dec=[],ads=[];
-  if(kind==='feed'){FEED.forEach(f=>dec.push({k:'f',x:f[0],y:f[1],w:150,h:f[1]>800?120:150,t:f[2],c:f[3]}));
-    [[270,230],[60,430],[490,420]].forEach(([x,y],i)=>{const a=mkAd('mr',x,y,170,100,i);a.brand=nextBrand();ads.push(a)});return{dec,ads}}
+  if(kind==='feed'){FEED.forEach(f=>dec.push({k:'f',x:f[0],y:f[1],w:150,h:f[1]>800?120:150,t:f[2]}));
+    [[270,230],[60,430],[490,420]].forEach(([x,y],i)=>{const a=mkAd('mr',x,y,170,100,i);a.brand='lk';ads.push(a)});return{dec,ads}}
   const shop=kind==='shop';let n=0;
   dec.push({k:shop?'shero':'hero',x:24,y:116,w:672,h:200});
   [350,850,1350].forEach((gy,gi)=>gate(gy,ads,gi));
@@ -329,19 +341,19 @@ function placeData(n){const out=[];let tries=0;
     out.push({x,y,ph:Math.random()*6,got:false})}return out}
 function loadLevel(i){L=i;lv=LV[i];WW=lv.ww||720;WH=lv.wh||1700;{const pg=genPage(lv.kind);blocks=pg.ads;decor=pg.dec}P={x:WW/2,y:WH-60,slow:0,flash:0,inv:0};E=[];B=[];PT=[];FL=[];WN=[];G=[];RG=[];D=lv.boss?[]:placeData(lv.data);dataTotal=lv.boss?lv.data:D.length;Bo=lv.boss?makeBoss():null;BP=[];bossT=0;introT=lv.boss?3:0;MG=null;
   got=0;exitOpen=false;tag=0;tagT=0;trT=2.2;adT=5;clock=0;joy=null;shieldOK=true;shieldT=0;pulseT=2;
-  st={tr:0,ad:0,pop:0,fake:0,trHit:0,adHit:0,cookie:0,boss:0,blk:0};clearPops();popSched=lv.boss?[[15,'kyuchat'],[38,'notif']]:[[7,'notif'],[24,'moronews'],[42,'golfcode'],[58,'kyuchat']];popNext=0;camX=clamp(P.x-VW/2,0,WW-VW);camY=clamp(P.y-VH/2,0,WH-VH)}
+  st={tr:0,ad:0,pop:0,fake:0,trHit:0,adHit:0,cookie:0,boss:0,blk:0};clearPops();popSched=lv.boss?[[12,'brikt'],[34,'briktdm']]:[[7,'notif'],[24,'moronews'],[42,'golfcode'],[58,'kyuchat']];popNext=0;camX=clamp(P.x-VW/2,0,WW-VW);camY=clamp(P.y-VH/2,0,WH-VH)}
 function enterLevel(i){snap={U:{...U},plv,xp};loadLevel(i)}
 function makeBoss(){const mhp=200+18*plv;return{x:WW/2,y:WH-430,r:38,hp:mhp,mhp,ph:0,fireT:3.2,n:0,drops:0,tx:WW/2,ty:WH-430,moveT:3,say:'Hei alle sammen!',sayT:4,sayShow:2.4,flash:0,oc:0,dead:false}}
 const phase=()=>Bo.hp/Bo.mhp>.66?1:Bo.hp/Bo.mhp>.33?2:3;
 function bossAttack(ph){Bo.n++;const a=Math.atan2(P.y-Bo.y,P.x-Bo.x);
-  const shoot=(ang,sp,home)=>BP.push({x:Bo.x+Math.cos(ang)*30,y:Bo.y+Math.sin(ang)*30,a:ang,sp,home,l:4.5,br:nextBrand()});
+  const shoot=(ang,sp,home,n)=>BP.push({x:Bo.x+Math.cos(ang)*30,y:Bo.y+Math.sin(ang)*30,a:ang,sp,home,l:4.5,br:'lk',n});
   if(ph===1)shoot(a,150,.9);else if(ph===2){for(let i=-1;i<=1;i++)shoot(a+i*.32,160,.8)}
-  else if(Bo.n%3===0){for(let i=0;i<10;i++)shoot(i*.628+Bo.n,110,0)}else{for(let i=-2;i<=2;i++)shoot(a+i*.26,175,.7)}
+  else if(Bo.n%3===0){for(let i=0;i<10;i++)shoot(i*.628+Bo.n,110,0,i+1)}else{for(let i=-2;i<=2;i++)shoot(a+i*.26,175,.7)}
   SFX.boss()}
 function dropPacket(){Bo.drops++;let tx=Bo.x,ty=Bo.y;for(let i=0;i<40;i++){const a=Math.random()*6.28,d=rnd(70,150);tx=clamp(Bo.x+Math.cos(a)*d,30,WW-30);ty=clamp(Bo.y+Math.sin(a)*d,140,WH-40);if(!inBlock(tx,ty,20))break}
-  D.push({x:Bo.x,y:Bo.y,sx:Bo.x,sy:Bo.y,tx,ty,fly:0,ph:Math.random()*6,got:false});float(Bo.x,Bo.y-56,'Data-pakke droppet!','#12a150')}
+  D.push({x:Bo.x,y:Bo.y,sx:Bo.x,sy:Bo.y,tx,ty,fly:0,ph:Math.random()*6,got:false});float(Bo.x,Bo.y-56,'Innsikt delt: data-pakke','#12a150')}
 function bossDmg(d){if(!Bo||Bo.dead)return;Bo.hp-=d;Bo.flash=.06;while(Bo.drops<8&&Bo.hp<=Bo.mhp*(1-(Bo.drops+1)/8))dropPacket();
-  if(Bo.hp<=0){Bo.dead=true;st.boss=1;BP=[];shake=14;SFX.open();burst(Bo.x,Bo.y,['#ff6b5e','#ffd400','#fff','#1d9bf0'],40);float(Bo.x,Bo.y-30,'@HypeHedda logget av','#14141c')}}
+  if(Bo.hp<=0){Bo.dead=true;st.boss=1;BP=[];shake=14;SFX.open();burst(Bo.x,Bo.y,['#3B55EB','#EDF0FE','#fff','#1d2939'],40);float(Bo.x,Bo.y-30,'LagkassaBrikt logget av (til 07:30 i morgen)','#1d2939')}}
 function updateBoss(dt){if(!Bo||Bo.dead)return;bossT+=dt;Bo.ph+=dt;Bo.flash=Math.max(0,Bo.flash-dt);Bo.oc=Math.max(0,Bo.oc-dt);
   Bo.moveT-=dt;if(Bo.moveT<=0){const a=Math.random()*6.28,d=rnd(170,240);Bo.tx=clamp(P.x+Math.cos(a)*d,60,WW-60);Bo.ty=clamp(P.y+Math.sin(a)*d,150,WH-80);Bo.moveT=rnd(2.2,3.5)}
   const dx=Bo.tx-Bo.x,dy=Bo.ty-Bo.y,dd=Math.hypot(dx,dy);if(dd>4){const v=Math.min(dd,(phase()===3?115:75)*dt);Bo.x+=dx/dd*v;Bo.y+=dy/dd*v}
@@ -367,7 +379,7 @@ muteEl.addEventListener('click',()=>{muted=!muted;muteEl.classList.toggle('off',
 /* ---------- pop-ups: up to 3 on screen, a queue behind, more than 5 = crash ---------- */
 const popTotal=()=>PV.length+PQ.length;
 function clearPops(){popsEl.innerHTML='';PV=[];PQ=[];popDelay=-1}
-function addPop(type){if(mode!=='play')return;if(type==='brand')type=nextBrand();PQ.push(type);const t=popTotal();
+function addPop(type){if(mode!=='play')return;if(type==='brand')type=lv.boss?['lk','brikt','briktdm'][Math.random()*3|0]:nextBrand();PQ.push(type);const t=popTotal();
   if(t>5){gameOver();return}if(t===5)float(P.x,P.y-44,'Én pop-up til = krasj!','#e3120b');else if(t===4)float(P.x,P.y-44,'Nettleseren sliter …','#e3120b');fillPops()}
 function fillPops(){while(PV.length<3&&PQ.length&&mode==='play')showPop(PQ.shift())}
 function showPop(type){const el=document.createElement('div');el.className='pop np pt-'+(POPCLASS[type]||type);
@@ -423,7 +435,7 @@ function levelClear(){mode='clear';clearPops();joy=null;SFX.open();const sc=scor
   clearEl.innerHTML=`<p class="kick">${lv.name}.no</p><h2>Siden er renset</h2><div class="big">${fmt(clock)}</div><p class="verdict">${verdict(sc)}</p>
    <div class="stats"><div><span>Trackere blokkert</span><b>${st.tr}</b></div><div><span>Reklame blokkert</span><b>${st.ad}</b></div>
    <div><span>Pop-ups lukket</span><b>${st.pop}</b></div><div><span>Falske kryss trykket</span><b>${st.fake}</b></div>
-   <div><span>Annonseflater knust</span><b>${st.blk}</b></div><div><span>Bot-nivå</span><b>${plv}</b></div>${lv.boss?'<div><span>@HypeHedda</span><b>Logget av</b></div>':''}<div class="sc"><span>Personvern-score</span><b>${sc}/100</b></div></div>
+   <div><span>Annonseflater knust</span><b>${st.blk}</b></div><div><span>Bot-nivå</span><b>${plv}</b></div>${lv.boss?'<div><span>LagkassaBrikt</span><b>Logget av til i morgen</b></div>':''}<div class="sc"><span>Personvern-score</span><b>${sc}/100</b></div></div>
    <button class="btn" id="nx">${last?'Se resultat':'Neste side →'}</button>`;
   clearEl.hidden=false;
   document.getElementById('nx').addEventListener('click',()=>{if(last){showEnd();return}clearEl.hidden=true;enterLevel(L+1);startCookie()})}
@@ -462,7 +474,7 @@ function spawnPos(){for(let i=0;i<30;i++){const side=Math.random()*4|0;let x,y;
   x=clamp(x,14,WW-14);y=clamp(y,74,WH-14);if(Math.hypot(x-P.x,y-P.y)>210)return{x,y}}return{x:14,y:clamp(P.y-300,74,WH-14)}}
 function warn(type,t){WN.push({type,...spawnPos(),t:t||.8,t0:t||.8})}
 function spawn(w){if(w.type==='tr')E.push({type:'tr',x:w.x,y:w.y,r:9,hp:1+Math.floor(clock/70),ph:Math.random()*6,flash:0,oc:0});
-  else{const hp=3+Math.floor(clock/40)+Math.floor(plv/3);E.push({type:'ad',x:w.x,y:w.y,r:22,hp,mhp:hp,ph:Math.random()*6,flash:0,oc:0,txt:AD_TXT[Math.random()*AD_TXT.length|0]});{const e=E[E.length-1];e.brand=nextBrand()}}}
+  else{const hp=3+Math.floor(clock/40)+Math.floor(plv/3);E.push({type:'ad',x:w.x,y:w.y,r:22,hp,mhp:hp,ph:Math.random()*6,flash:0,oc:0,txt:AD_TXT[Math.random()*AD_TXT.length|0]});{const e=E[E.length-1];e.brand=lv.boss?'lk':nextBrand()}}}
 
 /* ---------- combat ---------- */
 function dmg(e,d){if(e.dead)return;e.hp-=d;e.flash=.08;if(e.hp<=0)kill(e)}
@@ -502,7 +514,7 @@ function update(dt){
   const ac=autoClose();if(ac&&PV.length){const p=PV[0],bar=p.el.querySelector('.blk i');if(bar)bar.style.width=Math.min(100,p.t/ac*100)+'%';if(p.t>=ac)closePop(p,true)}
   if(popDelay>=0){popDelay-=dt;if(popDelay<0)fillPops()}
   if(popSched.length){if(clock>=popSched[0][0])addPop(popSched.shift()[1])}
-  else{if(!popNext)popNext=clock+rnd(24,34);if(clock>=popNext){popNext=clock+rnd(24,34);addPop(SPONT[Math.random()*SPONT.length|0])}}
+  else{if(!popNext)popNext=clock+rnd(24,34);if(clock>=popNext){popNext=clock+rnd(24,34);addPop(lv.boss?'brand':SPONT[Math.random()*SPONT.length|0])}}
   if(mode!=='play')return;
   // spawning
   const rate=(1+.12*tag)*(1+clock/(lv.boss?220:90))*(1+.08*(plv-1));trT-=dt*rate;adT-=dt*rate;
@@ -579,8 +591,11 @@ function drawDecor(b){const k=b.k;
     ctx.fillStyle='#dfe3ea';for(let i=0;i<3;i++)ctx.fillRect(tx,b.y+64+n*24+i*11,b.w-iw-60-i*30,5);return}
   if(k==='list'){ctx.fillStyle='#1a1f2b';ctx.font='800 13px Rubik,sans-serif';ctx.fillText(b.t,b.x+12,b.y+22);
     for(let i=0;i<5;i++){ctx.fillStyle=lv.color;ctx.fillText(String(i+1),b.x+12,b.y+48+i*21);ctx.fillStyle='#dfe3ea';ctx.fillRect(b.x+30,b.y+40+i*21,b.w-50-(i*17)%40,6)}return}
-  if(k==='f'){ctx.fillStyle=b.c;circ(b.x+17,b.y+17,9);ctx.fill();ctx.fillStyle='#1a1f2b';ctx.font='700 10px Rubik,sans-serif';ctx.fillText(b.t,b.x+31,b.y+21);
-    ctx.fillStyle=b.c;rr(b.x+7,b.y+32,b.w-14,b.h-58,5);ctx.fill();ctx.fillStyle='#e3120b';ctx.font='600 11px Rubik,sans-serif';ctx.fillText('♥ '+(b.t.length*1.3).toFixed(1)+'k',b.x+9,b.y+b.h-10);return}
+  if(k==='f'){ctx.fillStyle='#EDF0FE';circ(b.x+17,b.y+17,11);ctx.fill();drawSym('lk',b.x+17,b.y+17,13);
+    ctx.fillStyle='#1a1f2b';ctx.font='700 10px Rubik,sans-serif';ctx.fillText('Brikt',b.x+33,b.y+15);ctx.fillStyle='#8a93a5';ctx.font='400 8px Rubik,sans-serif';ctx.fillText('Lagkassa+ | Klubbøkonomi · 1 t',b.x+33,b.y+26);
+    ctx.fillStyle='#1a1f2b';ctx.font='500 10px Rubik,sans-serif';const n=wrap(b.t,b.x+9,b.y+46,b.w-18,12,3);
+    const iy=b.y+46+n*12-6,ih=b.y+b.h-20-iy;if(ih>18){ctx.fillStyle='#EDF0FE';rr(b.x+7,iy,b.w-14,ih,5);ctx.fill();drawSym('lk',b.x+b.w/2,iy+ih/2,Math.min(ih-8,30))}
+    ctx.fillStyle='#8a93a5';ctx.font='500 8px Rubik,sans-serif';ctx.fillText('Innsiktsfullt · 87 kommentarer',b.x+9,b.y+b.h-8);return}
   if(k==='a'){const ih=b.h*.5;ctx.fillStyle=b.c;rr(b.x+8,b.y+8,b.w-16,ih,6);ctx.fill();
     ctx.fillStyle='#1a1f2b';ctx.font='700 12px Rubik,sans-serif';const n=wrap(b.t,b.x+10,b.y+ih+26,b.w-20,15,2);
     ctx.fillStyle='#dfe3ea';for(let y=b.y+ih+26+n*15;y<b.y+b.h-8;y+=9)ctx.fillRect(b.x+10,y-5,b.w-20-((y*7)%40),5);return}
@@ -647,41 +662,41 @@ function drawAd(e){const a=Math.atan2(P.y-e.y,P.x-e.x);ctx.save();ctx.translate(
   ctx.restore()}
 function heart(x,y,s){ctx.beginPath();ctx.moveTo(x,y+s*.7);ctx.bezierCurveTo(x-s*1.3,y-s*.1,x-s*.55,y-s*1.05,x,y-s*.35);ctx.bezierCurveTo(x+s*.55,y-s*1.05,x+s*1.3,y-s*.1,x,y+s*.7);ctx.fill()}
 function drawBoss(){const b=Bo,bob=Math.sin(b.ph*2)*3;ctx.save();ctx.translate(b.x,b.y+bob);
-  const g=.5+.5*Math.sin(b.ph*3);ctx.strokeStyle=`rgba(255,226,150,${.35+.3*g})`;ctx.lineWidth=9;circ(0,-4,54);ctx.stroke();ctx.strokeStyle='rgba(255,255,255,.95)';ctx.lineWidth=2.5;circ(0,-4,54);ctx.stroke();
-  ctx.fillStyle='rgba(10,20,40,.16)';ctx.beginPath();ctx.ellipse(0,52,30,6,0,0,6.28);ctx.fill();
-  ctx.strokeStyle='#2a2a33';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(24,12);ctx.lineTo(50,-30);ctx.stroke();ctx.fillStyle='#2a2a33';rr(43,-46,15,22,4);ctx.fill();ctx.fillStyle='#8fd3ff';circ(50.5,-40,2.5);ctx.fill();
-  ctx.fillStyle=b.flash>0?'#fff':'#ff6b5e';rr(-29,-46,58,92,15);ctx.fill();ctx.strokeStyle='#c2412f';ctx.lineWidth=2.5;ctx.stroke();
-  ctx.fillStyle='#fff4f6';rr(-23,-38,46,74,9);ctx.fill();ctx.fillStyle='#2a2a33';rr(-7,-35,14,4,2);ctx.fill();
-  ctx.fillStyle='#14141c';heart(-10,-14,9);heart(10,-14,9);ctx.strokeStyle='#14141c';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-3,-16);ctx.lineTo(3,-16);ctx.stroke();
-  ctx.fillStyle='rgba(255,255,255,.55)';circ(-13,-17,2);ctx.fill();circ(7,-17,2);ctx.fill();
-  ctx.fillStyle='rgba(255,107,94,.35)';circ(-15,4,4.5);ctx.fill();circ(15,4,4.5);ctx.fill();
-  ctx.strokeStyle='#e3120b';ctx.lineWidth=3;ctx.lineCap='round';ctx.beginPath();ctx.arc(0,3,10,.15*Math.PI,.85*Math.PI);ctx.stroke();ctx.lineCap='butt';
-  ctx.fillStyle='#ffd400';ctx.font='800 9px Rubik,sans-serif';ctx.textAlign='center';ctx.fillText('#ad',0,30);
+  ctx.fillStyle='rgba(10,20,40,.16)';ctx.beginPath();ctx.ellipse(0,52,32,6,0,0,6.28);ctx.fill();
+  ctx.save();ctx.translate(46,6);ctx.rotate(.25+Math.sin(b.ph*4)*.08);ctx.fillStyle='#1d2939';rr(-9,-16,18,30,4);ctx.fill();ctx.fillStyle='#3B55EB';rr(-7,-13,14,22,2);ctx.fill();ctx.fillStyle='#fff';ctx.fillRect(-4,-9,8,2);ctx.fillRect(-4,-5,6,2);ctx.restore();
+  ctx.fillStyle=b.flash>0?'#fff':'#EDF0FE';circ(0,-2,44);ctx.fill();
+  ctx.save();circ(0,-2,44);ctx.clip();
+  ctx.fillStyle='#1d2939';ctx.beginPath();ctx.ellipse(0,48,40,30,0,0,6.28);ctx.fill();
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(-11,19);ctx.lineTo(11,19);ctx.lineTo(0,36);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#3B55EB';ctx.beginPath();ctx.moveTo(-3,21);ctx.lineTo(3,21);ctx.lineTo(5,40);ctx.lineTo(0,47);ctx.lineTo(-5,40);ctx.closePath();ctx.fill();
+  drawSym('lk',0,-9,40);ctx.restore();
+  ctx.lineWidth=11;ctx.strokeStyle='#3B55EB';ctx.beginPath();ctx.arc(0,-2,47,Math.PI*.5,Math.PI*1.5);ctx.stroke();
+  ctx.save();ctx.fillStyle='#fff';ctx.font='800 8px Rubik,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  const txt='#LAGKASSA+';for(let i=0;i<txt.length;i++){const a=Math.PI*.98-.6+i*.13;ctx.save();ctx.translate(Math.cos(a)*47,-2+Math.sin(a)*47);ctx.rotate(a+Math.PI/2);ctx.fillText(txt[i],0,0);ctx.restore()}ctx.restore();
   ctx.restore();
-  const ty=b.y+bob-76,name='@HypeHedda';ctx.font='700 12px Rubik,sans-serif';const w=ctx.measureText(name).width+56,x0=b.x-w/2;
-  ctx.fillStyle='rgba(20,20,28,.92)';rr(x0,ty-12,w,24,12);ctx.fill();
-  ctx.fillStyle='#e3120b';rr(x0+5,ty-7,28,14,7);ctx.fill();ctx.fillStyle='#fff';ctx.font='800 8px Rubik,sans-serif';ctx.textAlign='center';ctx.fillText('LIVE',x0+19,ty+3);
-  ctx.textAlign='left';ctx.font='700 12px Rubik,sans-serif';ctx.fillText(name,x0+38,ty+4);
-  const cx=x0+w-12;ctx.fillStyle='#1d9bf0';circ(cx,ty,6);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=1.8;ctx.beginPath();ctx.moveTo(cx-3,ty);ctx.lineTo(cx-1,ty+2.5);ctx.lineTo(cx+3,ty-2.5);ctx.stroke();
-  if(b.sayShow>0){ctx.globalAlpha=Math.min(1,b.sayShow*3);ctx.font='600 12px Rubik,sans-serif';const sw=ctx.measureText(b.say).width+22,sy=ty-38;
-    ctx.fillStyle='#fff';ctx.strokeStyle='#14141c';ctx.lineWidth=2;rr(b.x-sw/2,sy-13,sw,26,13);ctx.fill();ctx.stroke();
+  const ty=b.y+bob-70,name='LagkassaBrikt';ctx.font='700 12px Rubik,sans-serif';const nw=ctx.measureText(name).width,w=nw+70,x0=b.x-w/2;
+  ctx.fillStyle='rgba(20,20,28,.92)';rr(x0,ty-12,w,24,12);ctx.fill();ctx.fillStyle='#fff';ctx.fillText(name,x0+11,ty+4);
+  ctx.fillStyle='#3B55EB';rr(x0+nw+18,ty-8,44,16,8);ctx.fill();ctx.fillStyle='#fff';ctx.font='700 9px Rubik,sans-serif';ctx.textAlign='center';ctx.fillText('+ Følg',x0+nw+40,ty+3);ctx.textAlign='left';
+  if(b.sayShow>0){ctx.globalAlpha=Math.min(1,b.sayShow*3);ctx.font='600 12px Rubik,sans-serif';const sw=ctx.measureText(b.say).width+22,sy=ty-38,sx=clamp(b.x,camX+sw/2+8,camX+VW-sw/2-8);
+    ctx.fillStyle='#fff';ctx.strokeStyle='#14141c';ctx.lineWidth=2;rr(sx-sw/2,sy-13,sw,26,13);ctx.fill();ctx.stroke();
     ctx.beginPath();ctx.moveTo(b.x-6,sy+12);ctx.lineTo(b.x,sy+20);ctx.lineTo(b.x+6,sy+12);ctx.fill();
-    ctx.fillStyle='#14141c';ctx.textAlign='center';ctx.fillText(b.say,b.x,sy+4);ctx.globalAlpha=1}
+    ctx.fillStyle='#14141c';ctx.textAlign='center';ctx.fillText(b.say,sx,sy+4);ctx.globalAlpha=1}
   ctx.textAlign='left'}
-function drawBP(q){ctx.strokeStyle='rgba(255,59,48,.35)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(q.x,q.y);ctx.lineTo(q.x-Math.cos(q.a)*16,q.y-Math.sin(q.a)*16);ctx.stroke();
-  const M=BRANDS[q.br||'kyuubi'].mon;ctx.fillStyle=M[0];ctx.strokeStyle=q.home?'#ff3b30':'#ff9500';ctx.lineWidth=2;rr(q.x-13,q.y-10,26,20,5);ctx.fill();ctx.stroke();
-  drawSym(q.br||'kyuubi',q.x,q.y,14)}
+function drawBP(q){ctx.strokeStyle='rgba(59,85,235,.35)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(q.x,q.y);ctx.lineTo(q.x-Math.cos(q.a)*16,q.y-Math.sin(q.a)*16);ctx.stroke();
+  if(q.home){ctx.fillStyle='#fff';ctx.strokeStyle='#3B55EB';ctx.lineWidth=2;rr(q.x-14,q.y-10,28,20,4);ctx.fill();ctx.stroke();drawSym('lk',q.x-7,q.y-2,10);
+    ctx.fillStyle='#c9d0e6';ctx.fillRect(q.x-1,q.y-6,10,2);ctx.fillRect(q.x-1,q.y-2,7,2);ctx.fillRect(q.x-10,q.y+4,20,2)}
+  else{ctx.fillStyle='#3B55EB';rr(q.x-12,q.y-12,24,24,4);ctx.fill();ctx.fillStyle='#fff';ctx.font='700 8px Rubik,sans-serif';ctx.textAlign='center';ctx.fillText((q.n||1)+'/10',q.x,q.y+3);ctx.textAlign='left'}}
 function drawReticle(){ctx.save();ctx.translate(P.x,P.y);ctx.rotate(clock*1.5);ctx.strokeStyle='rgba(255,59,48,.55)';ctx.lineWidth=1.5;circ(0,0,30);ctx.stroke();
   for(let i=0;i<4;i++){ctx.rotate(Math.PI/2);ctx.beginPath();ctx.moveTo(24,0);ctx.lineTo(36,0);ctx.stroke()}ctx.restore()}
 function drawBossUI(){if(!Bo)return;
   if(!Bo.dead){const y=HUD+10;ctx.fillStyle='rgba(20,20,28,.9)';rr(14,y,W-34,30,15);ctx.fill();
-    ctx.fillStyle='#fff';ctx.font='700 12px Rubik,sans-serif';ctx.fillText('@HypeHedda',28,y+19);
-    ctx.fillStyle='#3a3a46';rr(120,y+11,W-160,8,4);ctx.fill();ctx.fillStyle='#ff6b5e';rr(120,y+11,Math.max(.01,(W-160)*Math.max(0,Bo.hp/Bo.mhp)),8,4);ctx.fill();
-    ctx.fillStyle='rgba(255,255,255,.5)';for(let i=1;i<8;i++)ctx.fillRect(120+(W-160)*i/8,y+11,1,8)}
+    ctx.fillStyle='#fff';ctx.font='700 12px Rubik,sans-serif';ctx.fillText('LagkassaBrikt',28,y+19);
+    ctx.fillStyle='#3a3a46';rr(132,y+11,W-172,8,4);ctx.fill();ctx.fillStyle='#3B55EB';rr(132,y+11,Math.max(.01,(W-172)*Math.max(0,Bo.hp/Bo.mhp)),8,4);ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,.5)';for(let i=1;i<8;i++)ctx.fillRect(132+(W-172)*i/8,y+11,1,8)}
   if(introT>0&&mode==='play'){ctx.globalAlpha=Math.min(1,introT*2);const y=HUD+VH*.42;ctx.fillStyle='rgba(20,20,28,.92)';rr(40,y-36,W-80,84,18);ctx.fill();
-    ctx.fillStyle='#e3120b';rr(W/2-26,y-26,52,18,9);ctx.fill();ctx.fillStyle='#fff';ctx.font='800 10px Rubik,sans-serif';ctx.textAlign='center';ctx.fillText('LIVE',W/2,y-13);
-    ctx.font='800 22px Rubik,sans-serif';ctx.fillText('@HypeHedda går live!',W/2,y+14);
-    ctx.fillStyle='#c4ccda';ctx.font='500 13px Rubik,sans-serif';ctx.fillText('Skad henne for å få data-pakkene ut',W/2,y+36);ctx.textAlign='left';ctx.globalAlpha=1}}
+    ctx.fillStyle='#3B55EB';rr(W/2-46,y-26,92,18,9);ctx.fill();ctx.fillStyle='#fff';ctx.font='800 10px Rubik,sans-serif';ctx.textAlign='center';ctx.fillText('NYTT INNLEGG',W/2,y-13);
+    ctx.font='800 19px Rubik,sans-serif';ctx.fillText('LagkassaBrikt har delt et innlegg',W/2,y+14);
+    ctx.fillStyle='#c4ccda';ctx.font='500 13px Rubik,sans-serif';ctx.fillText('Skad ham for å få data-pakkene ut',W/2,y+36);ctx.textAlign='left';ctx.globalAlpha=1}}
 function drawWarn(w){const k=1-w.t/w.t0,blink=(w.t*10|0)%2===0;
   if(w.type==='tr'){ctx.strokeStyle=`rgba(255,45,149,${.3+.5*k})`;ctx.lineWidth=2;circ(w.x,w.y,4+10*k);ctx.stroke()}
   else if(blink){ctx.strokeStyle='#ff3b30';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);rr(w.x-25,w.y-17,50,34,6);ctx.stroke();ctx.setLineDash([]);
@@ -693,7 +708,7 @@ function drawHeader(){ctx.fillStyle=lv.color;ctx.fillRect(0,0,WW,56);
   const x=WW/2,y=86;ctx.textAlign='center';
   if(exitOpen){const g=.5+.5*Math.sin(clock*6);ctx.fillStyle=`rgba(15,181,201,${.2+.2*g})`;rr(x-80,y-18,160,36,18);ctx.fill();
     ctx.fillStyle='#0fb5c9';rr(x-72,y-14,144,28,14);ctx.fill();ctx.fillStyle='#05252b';ctx.font='700 14px Rubik,sans-serif';ctx.fillText('Neste side →',x,y+5)}
-  else{ctx.fillStyle='#e2e6ed';rr(x-84,y-13,168,26,13);ctx.fill();ctx.fillStyle='#8a93a5';ctx.font='500 11px Rubik,sans-serif';ctx.fillText(lv.boss?`Ta dataene fra @HypeHedda (${got}/${dataTotal})`:`Samle all data først (${got}/${dataTotal})`,x,y+4)}
+  else{ctx.fillStyle='#e2e6ed';rr(x-84,y-13,168,26,13);ctx.fill();ctx.fillStyle='#8a93a5';ctx.font='500 11px Rubik,sans-serif';ctx.fillText(lv.boss?`Ta dataene fra LagkassaBrikt (${got}/${dataTotal})`:`Samle all data først (${got}/${dataTotal})`,x,y+4)}
   ctx.textAlign='left'}
 function drawArrow(){let t=null;
   if(MG&&MG.fly>=1)t={x:MG.x,y:MG.y,c:'#e3120b'};else if(exitOpen)t={x:WW/2,y:86,c:'#0fb5c9'};else{let bd=1e9;for(const d of D)if(!d.got&&!(d.fly<1)){const k=Math.hypot(d.x-P.x,d.y-P.y);if(k<bd){bd=k;t={x:d.x,y:d.y,c:'#12a150'}}}}
