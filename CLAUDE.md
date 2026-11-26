@@ -34,6 +34,12 @@ Spilleren styrer en adblock-bot med en flytende joystick (dra hvor som helst) el
   ```
   Bruk publishable/anon-nøkkelen (den er laget for å ligge i nettleseren). Uten innlogging kan hvem som helst sende inn falske tider.
 
+- Hemmelig nivå (`LV[SECRET]`, `secret:true`, kind `block`): KornyKloss, laget rundt interessene til en 11-åring (håndball, fotball, samlekort, tegninger). Låses opp når en ferdig runde havner på topp 10 (`secretCheck`, `localStorage.ab_secret`), og kan da også startes fra menyen. Egen tid (`ab_kbest`), teller ikke i totaltiden eller topplisten.
+  - Boss BigBoss Korny (`drawKorny`, `kornyState`): egen lilla blokk-spøkelsesfigur med caps. Syklus synlig → forsvinner → usynlig (kan ikke treffes) → dukker opp ved siden av spilleren → slikk (treghet hvis innen 105 px).
+  - Klossbomber (`drawKloss`) erstatter reklamemonstre: tenner lunta nær spilleren og eksploderer. Baller (håndball/fotball) erstatter trackere. Klossvegger (`cube`) er skytbare hindre.
+  - Pop-ups: tegning, kort, maal, fotball (`KIDP`, klasse `pt-kid`).
+  - IKKE bruk Pokémon-, Gengar- eller Minecraft/creeper-figurer, navn eller logoer. Alt skal være egne design.
+
 ## Arbeidsflyt
 - Utvikles i Claude-chat, pushes til `main`, GitHub Pages publiserer automatisk.
 - Test i headless Chromium (Playwright) før push. Ingen byggesteg.
