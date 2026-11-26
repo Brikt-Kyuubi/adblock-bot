@@ -17,7 +17,7 @@ Spilleren styrer en adblock-bot med en flytende joystick (dra hvor som helst) el
 - ALL reklame i spillet er disse merkevarene: reklameflater, reklamemonstre (med merkets symbol), boss-skudd og reklame-pop-ups. Ingen generiske/anonyme annonser.
   Nettsidens egne pop-ups (cookie-banner, varsler, «Skal du gå allerede?», betalingsmur) tilhører den fiktive nettsiden.
 - Logoer ligger inline i `LOGO_SRC` (full logo + `_s` = symbol). PNG fra eierens filer, SVG for PopUpGolf og Lagkassa+.
-- Spillet er også Kyuubi Creative sitt 5-årsjubileum (meny og sluttskjerm). Spilleren er en rev i Kyuubi-stil (`drawFox`), menyene bruker Kyuubi-solnedgangen og Poppins.
+- Spillet er også Kyuubi Creative sitt 5-årsjubileum (meny og sluttskjerm). Spilleren er Kyuubi-revesymbolet (`LOGO_SRC.kyuubi_s`, tegnet i `drawFox` med hvit/rosa tint ved treff/tracker), menyene bruker Kyuubi-solnedgangen og Poppins.
 - Målet er raskeste totaltid gjennom alle tre sidene (`tot.time`). Mislykkede forsøk teller med i tiden. Beste tid lagres lokalt (`ab_best`).
 - Toppliste: `LB = {url, key, table}` (Supabase REST). Ligger i Supabase-prosjektet AddUp (gammelt spill, forgjengeren til SumoSan), tabell `adblock_scores`. Opprinnelig skisse:
   ```sql
