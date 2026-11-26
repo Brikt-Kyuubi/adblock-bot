@@ -14,6 +14,10 @@ Spilleren styrer en adblock-bot med en flytende joystick (dra hvor som helst) el
 - Oppgraderinger: `UPG`, tre tilfeldige kort per nivå.
 - Magnet slippes når siste data-pakke er plukket.
 - Merkevarer i `BRANDS`: Kyuubi Creative, Nails by Jee Hee, PopUpGolf, Morokoppen, Lagkassa+ (eierens egne prosjekter). Lagkassa+ bruker aldri utropstegn.
+- ALL reklame i spillet er disse merkevarene: reklameflater, reklamemonstre (med merkets symbol), boss-skudd og reklame-pop-ups. Ingen generiske/anonyme annonser.
+  Nettsidens egne pop-ups (cookie-banner, varsler, «Skal du gå allerede?», betalingsmur) tilhører den fiktive nettsiden.
+- Logoer ligger inline i `LOGO_SRC` (full logo + `_s` = symbol). PNG fra eierens filer, SVG for PopUpGolf og Lagkassa+.
+- Spillet er også Kyuubi Creative sitt 5-årsjubileum (meny og sluttskjerm).
 
 ## Arbeidsflyt
 - Utvikles i Claude-chat, pushes til `main`, GitHub Pages publiserer automatisk.
