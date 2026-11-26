@@ -47,30 +47,38 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
 .cr{border:0;background:none;color:#b0b6c2;font:400 11px Rubik,sans-serif;min-height:44px;padding:0 4px;cursor:pointer}
 .tg{display:flex;align-items:center;gap:10px;min-height:38px;font-size:14px;border-bottom:1px solid #eef0f4}
 .tg input{width:20px;height:20px;accent-color:#2160f3}
-.screen{position:absolute;left:0;right:0;top:64px;bottom:0;z-index:6;display:flex;flex-direction:column;justify-content:center;padding:26px 28px;background:rgba(14,18,28,.92);color:#fff}
+.screen{position:absolute;left:0;right:0;top:64px;bottom:0;z-index:6;display:flex;flex-direction:column;justify-content:safe center;overflow-y:auto;padding:26px 28px;background:linear-gradient(180deg,rgba(20,14,40,.1),rgba(20,14,40,.45)),linear-gradient(172deg,#F7A9A3 0%,#C48CA6 38%,#6E5C8C 72%,#4C4370 100%);color:#fff;font-family:Poppins,sans-serif}
 .screen[hidden]{display:none}
-.kick{margin:0 0 6px;color:#0fb5c9;font-weight:600;font-size:14px}
-.screen h1{font:800 50px/1 Rubik,sans-serif;margin:0 0 12px;letter-spacing:-1px}
-.screen h2{font:800 32px/1.05 Rubik,sans-serif;margin:0 0 6px;text-wrap:balance}
-.lead{font-size:16px;line-height:1.5;margin:0 0 16px;color:#d5dbe6}
+.kick{margin:0 0 12px;color:#fff;font:500 12px/1.4 Poppins,sans-serif;letter-spacing:2.5px;text-transform:uppercase}.kick::after{content:'';display:block;width:150px;height:3px;margin-top:8px;background:linear-gradient(90deg,#EA5C2A 0 32%,rgba(255,255,255,.55) 32% 100%) 0 0/100% 3px no-repeat}
+.screen h1{font:700 48px/1 Poppins,sans-serif;margin:0 0 12px;letter-spacing:-1px}
+.screen h2{font:700 28px/1.1 Poppins,sans-serif;margin:0 0 6px;text-wrap:balance}
+.lead{font-size:15px;line-height:1.55;margin:0 0 16px;color:rgba(255,255,255,.94)}
 .rules{list-style:none;padding:0;margin:0 0 22px;display:grid;gap:10px}
-.rules li{display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.4;color:#c4ccda}
+.rules li{display:flex;gap:12px;align-items:flex-start;font-size:13.5px;line-height:1.45;color:rgba(255,255,255,.92)}
 .ic{flex:none;width:18px;height:18px;margin-top:1px;border-radius:50%}
 .ic.doc{border-radius:3px;background:#fff;border:2.5px solid #12a150;width:15px}
 .ic.xp{border-radius:2px;background:#0fb5c9;transform:rotate(45deg) scale(.75)}
 .ic.tr{background:#ff2d95;box-shadow:0 0 0 3px rgba(255,45,149,.3)}
 .ic.ad{border-radius:4px;background:#ffd400;border:2.5px solid #ff3b30;width:22px;height:16px}
-.ic.mv{background:#0fb5c9}
-.btn{font:700 18px Rubik,sans-serif;border:0;border-radius:14px;padding:14px 20px;min-height:52px;background:#0fb5c9;color:#05252b;cursor:pointer}
+.ic.mv{background:linear-gradient(135deg,#EA5C2A,#F7941D);border-radius:4px;transform:rotate(45deg) scale(.8)}
+.btn{font:600 15px Poppins,sans-serif;letter-spacing:2px;text-transform:uppercase;border:0;border-radius:40px;padding:14px 22px;min-height:52px;background:linear-gradient(180deg,#F05A28,#F7941D);color:#fff;cursor:pointer;box-shadow:0 8px 24px rgba(234,92,42,.35)}
 .btn:focus-visible,.cs:focus-visible,.cta:focus-visible,.card:focus-visible{outline:3px solid #ffd400;outline-offset:2px}
-.note{margin:12px 0 0;font-size:12px;color:#7d889c;text-align:center}
-.big{font:800 60px/1 Rubik,sans-serif;margin:6px 0 4px;color:#0fb5c9;font-variant-numeric:tabular-nums}
-.verdict{margin:0 0 16px;color:#c4ccda;font-size:15px}
+.note{margin:12px 0 0;font-size:12px;color:rgba(255,255,255,.78);text-align:center}
+.big{font:700 58px/1 Poppins,sans-serif;margin:6px 0 4px;color:#fff;font-variant-numeric:tabular-nums;text-shadow:0 4px 18px rgba(76,67,112,.45)}
+.verdict{margin:0 0 16px;color:rgba(255,255,255,.9);font-size:15px}
 .stats{display:grid;margin:0 0 20px}
-.stats div{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:15px;color:#c4ccda}
+.stats div{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.22);font-size:14px;color:rgba(255,255,255,.9)}
 .stats b{color:#fff;font-variant-numeric:tabular-nums;text-align:right}
 .stats .sc b{color:#ffd400;font-size:18px}
-#lu{background:rgba(14,18,28,.82)}
+#lu{background:rgba(14,18,28,.82);font-family:Rubik,sans-serif}
+#cookie .btn{text-transform:none;letter-spacing:0;border-radius:14px;box-shadow:none;font:700 17px Rubik,sans-serif}
+.lbw{background:rgba(20,14,40,.35);border-radius:16px;padding:12px 14px;margin:0 0 14px}
+.lbh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-size:15px}.lbh span{font-size:12px;opacity:.8}
+.lbf{display:flex;gap:8px;margin-bottom:8px}.lbf input{flex:1;min-width:0;border:0;border-radius:30px;padding:0 16px;height:44px;font:500 16px Poppins,sans-serif;color:#2a2340;-webkit-user-select:text;user-select:text}
+.btn.sm{min-height:44px;padding:0 16px;font-size:12px;letter-spacing:1.5px;box-shadow:none}
+.lbl{list-style:none;margin:0;padding:0;counter-reset:r}.lbl li{display:flex;gap:10px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.15);font-size:14px;counter-increment:r}
+.lbl li::before{content:counter(r);width:18px;opacity:.7}.lbl li span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lbl li b{font-variant-numeric:tabular-nums}.lbl li.me{color:#FFD27A}
+.lbl:empty{display:none}.lbf[hidden]{display:none}
 .cards{display:grid;gap:12px;margin-top:14px}
 .card{display:grid;grid-template-columns:44px 1fr;gap:4px 14px;align-items:center;text-align:left;width:100%;padding:14px 16px;border-radius:16px;border:2px solid #2d3546;background:#1b2130;color:#fff;font:inherit;cursor:pointer;transition:transform .12s,border-color .12s;animation:cardin .3s both}
 .card:nth-child(2){animation-delay:.06s}.card:nth-child(3){animation-delay:.12s}
@@ -164,7 +172,7 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
   <div id="pops"></div>
   <div id="cookie" hidden></div>
   <div class="screen" id="menu">
-    <img class="mlogo" id="mlogo" alt="Kyuubi Creative"><p class="kick">Kyuubi Creative 5 år · et minispill om internett</p>
+    <img class="mlogo" id="mlogo" alt="Kyuubi Creative"><p class="kick">Kyuubi Creative 5 år</p>
     <h1>Adblock-bot</h1>
     <p class="lead">Du er en liten bot på oppdrag: samle inn informasjonen på siden, og blokker alt som prøver å selge deg noe.</p>
     <ul class="rules">
@@ -176,7 +184,8 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
       <li><i class="ic mv"></i>Dra hvor som helst for å styre (WASD på PC). Boten skyter selv.</li>
     </ul>
     <button class="btn" id="go">Start surfing</button>
-    <p class="note">v6 · all reklamen i spillet er for våre egne prosjekter</p>
+    <p class="note" id="mbest"></p>
+    <p class="note">v8 · all reklamen i spillet er for våre egne prosjekter</p>
   </div>
   <div class="screen" id="lu" hidden></div>
   <div class="screen" id="clear" hidden></div>
@@ -281,7 +290,7 @@ function drawBrandFace(b,x,y,w,h){const B=BRANDS[b.brand],big=w>=380,p=12;ctx.sa
   else{const lh=big?20:15;drawLogo('lk',x+p,y+12,lh);const f=big?19:15;ctx.font=`600 ${f}px "Instrument Sans",sans-serif`;ctx.fillStyle=B.ink;ctx.fillText('Ingen utropstegn.',x+p,y+12+lh+f+10);ctx.fillStyle=B.c1;ctx.fillText('Bare kontroll.',x+p,y+12+lh+2*f+14);
     if(big){ctx.font='500 12px "Instrument Sans",sans-serif';ctx.fillStyle='#5b6070';ctx.textAlign='right';ctx.fillText('Klubbøkonomi som styret og lagene forstår.',x+w-p,y+h-16);ctx.textAlign='left'}}
   ctx.restore()}
-Object.assign(POPT,BPOP);document.getElementById('mlogo').src=LOGO_SRC.kyuubi;Object.assign(FAKE_MSG,BFAKE);
+Object.assign(POPT,BPOP);document.getElementById('mlogo').src=LOGO_SRC.kyuubi;setTimeout(()=>{try{menuBest()}catch(e){}},0);Object.assign(FAKE_MSG,BFAKE);
 const AD_TXT=['KJØP NÅ!','-70%','GRATIS*','KLIKK!','VINN!','SALG!'],TR_TXT=['-1 cookie','blokkert','ikke i dag','sporløs'];
 const UPG=[
  {id:'rate',n:'Turbo-parser',d:()=>'Skyter 20 % raskere.',max:5,c:'w',g:'»'},
@@ -432,28 +441,45 @@ function build(){return UPG.filter(u=>U[u.id]).map(u=>u.n+(U[u.id]>1?' '+U[u.id]
 function levelClear(){mode='clear';clearPops();joy=null;SFX.open();const sc=score();
   tot.tr+=st.tr;tot.ad+=st.ad;tot.pop+=st.pop;tot.fake+=st.fake;tot.time+=clock;tot.score+=sc;tot.levels++;
   const last=L+1>=LV.length;
-  clearEl.innerHTML=`<p class="kick">${lv.name}.no</p><h2>Siden er renset</h2><div class="big">${fmt(clock)}</div><p class="verdict">${verdict(sc)}</p>
-   <div class="stats"><div><span>Trackere blokkert</span><b>${st.tr}</b></div><div><span>Reklame blokkert</span><b>${st.ad}</b></div>
+  clearEl.innerHTML=`<p class="kick">${lv.name}.no</p><h2>Siden er ryddet</h2><div class="big">${fmt(tot.time)}</div><p class="verdict">Total tid så langt. ${verdict(sc)}</p>
+   <div class="stats"><div><span>Tid på denne siden</span><b>${fmt(clock)}</b></div><div><span>Trackere blokkert</span><b>${st.tr}</b></div><div><span>Reklame blokkert</span><b>${st.ad}</b></div>
    <div><span>Pop-ups lukket</span><b>${st.pop}</b></div><div><span>Falske kryss trykket</span><b>${st.fake}</b></div>
    <div><span>Annonseflater knust</span><b>${st.blk}</b></div><div><span>Bot-nivå</span><b>${plv}</b></div>${lv.boss?'<div><span>LagkassaBrikt</span><b>Logget av til i morgen</b></div>':''}<div class="sc"><span>Personvern-score</span><b>${sc}/100</b></div></div>
    <button class="btn" id="nx">${last?'Se resultat':'Neste side →'}</button>`;
   clearEl.hidden=false;
   document.getElementById('nx').addEventListener('click',()=>{if(last){showEnd();return}clearEl.hidden=true;enterLevel(L+1);startCookie()})}
-function showEnd(){mode='end';const avg=Math.round(tot.score/Math.max(1,tot.levels));
-  clearEl.innerHTML=`<p class="kick">Kyuubi Creative 5 år</p><h2>Internett er ${tot.levels} sider renere</h2><div class="big">${fmt(tot.time)}</div><p class="verdict">${verdict(avg)}</p>
-   <div class="stats"><div><span>Trackere blokkert</span><b>${tot.tr}</b></div><div><span>Reklame blokkert</span><b>${tot.ad}</b></div>
-   <div><span>Pop-ups lukket</span><b>${tot.pop}</b></div><div><span>Bot-nivå</span><b>${plv}</b></div>
-   <div><span>Bygg</span><b style="font-size:13px;font-weight:500">${build()}</b></div>
-   <div class="sc"><span>Snitt personvern-score</span><b>${avg}/100</b></div></div>
+function showEnd(){mode='end';const ms=Math.round(tot.time*1000);let best=0;try{best=+localStorage.getItem('ab_best')||0}catch(e){}
+  const pb=!best||ms<best;if(pb)try{localStorage.setItem('ab_best',ms)}catch(e){}
+  const pbt=!best?'Første gang gjennom. Nå er det bare å slå den.':pb?`Ny personlig rekord. Forrige: ${fmt(best/1000)}.`:`Personlig rekord: ${fmt(best/1000)}.`;
+  clearEl.innerHTML=`<p class="kick">Kyuubi Creative 5 år</p><h2>Fra kaos til klarhet på</h2><div class="big">${fmt(tot.time)}</div><p class="verdict">${pbt}</p>
+   <div class="lbw"><div class="lbh"><b>Toppliste</b><span id="lbs"></span></div><form class="lbf" id="lbf"><input id="lbn" maxlength="20" placeholder="Navnet ditt" autocomplete="nickname"><button class="btn sm" type="submit">Send inn</button></form><ol class="lbl" id="lbl"></ol></div>
+   <div class="stats"><div><span>Reklame blokkert</span><b>${tot.ad}</b></div><div><span>Pop-ups lukket</span><b>${tot.pop}</b></div><div><span>Bot-nivå</span><b>${plv}</b></div></div>
    <p class="note" style="margin:0 0 14px;text-align:left">Takk for at du spilte, og for fem år med Kyuubi Creative.</p><button class="btn" id="again">Spill igjen</button>`;
   clearEl.hidden=false;
-  document.getElementById('again').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()})}
+  document.getElementById('again').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()});
+  lbSetup(ms)}
+const VERSION='v8';
+const LB={url:'',key:''}; /* Supabase: prosjekt-URL og publishable/anon-nøkkel. Tomt = toppliste av. */
+const lbOn=()=>!!(LB.url&&LB.key),lbHead=()=>({apikey:LB.key,Authorization:'Bearer '+LB.key,'Content-Type':'application/json'});
+async function lbTop(n){const r=await fetch(`${LB.url}/rest/v1/scores?select=name,time_ms&order=time_ms.asc&limit=${n}`,{headers:lbHead()});if(!r.ok)throw new Error(r.status);return r.json()}
+async function lbSend(name,ms){const r=await fetch(`${LB.url}/rest/v1/scores`,{method:'POST',headers:{...lbHead(),Prefer:'return=minimal'},body:JSON.stringify({name,time_ms:ms,version:VERSION})});if(!r.ok)throw new Error(r.status)}
+function lbRender(list,el,me){el.innerHTML='';list.forEach(r=>{const li=document.createElement('li'),a=document.createElement('span'),b=document.createElement('b');a.textContent=r.name;b.textContent=fmt(r.time_ms/1000);li.append(a,b);if(me&&r.name===me.name&&r.time_ms===me.ms)li.className='me';el.append(li)})}
+function lbSetup(ms){const f=document.getElementById('lbf'),inp=document.getElementById('lbn'),s=document.getElementById('lbs'),ol=document.getElementById('lbl');
+  if(!lbOn()){f.hidden=true;s.textContent='Felles toppliste kommer snart';let best=0;try{best=+localStorage.getItem('ab_best')||0}catch(e){}lbRender([{name:'Din beste tid',time_ms:best||ms}],ol);return}
+  try{inp.value=localStorage.getItem('ab_name')||''}catch(e){}
+  s.textContent='Laster …';lbTop(10).then(l=>{lbRender(l,ol);s.textContent='Raskeste gjennomspilling'}).catch(()=>{s.textContent='Fikk ikke hentet topplisten'});
+  f.addEventListener('submit',e=>{e.preventDefault();const name=inp.value.trim().slice(0,20);if(!name){inp.focus();return}
+    try{localStorage.setItem('ab_name',name)}catch(err){}f.querySelector('button').disabled=true;s.textContent='Sender …';
+    lbSend(name,ms).then(()=>lbTop(10)).then(l=>{lbRender(l,ol,{name,ms});s.textContent='Du er med';f.hidden=true}).catch(()=>{s.textContent='Kunne ikke sende. Prøv igjen.';f.querySelector('button').disabled=false})})}
+function menuBest(){const el=document.getElementById('mbest');if(!el)return;let best=0;try{best=+localStorage.getItem('ab_best')||0}catch(e){}
+  el.textContent=best?`Din beste tid: ${fmt(best/1000)}`:'Raskeste tid gjennom alle tre sidene vinner.';
+  if(lbOn())lbTop(1).then(l=>{if(l[0])el.textContent+=` · Rekord: ${fmt(l[0].time_ms/1000)} (${l[0].name})`}).catch(()=>{})}
 function gameOver(){if(mode==='over')return;mode='over';joy=null;shake=22;SFX.over();FL.push({x:clamp(P.x,camX+90,camX+VW-90),y:P.y-44,t:'NETTLESEREN KRASJET',c:'#e3120b',l:1.6});
   setTimeout(()=>{clearPops();clearEl.innerHTML=`<p class="kick">Nettleseren krasjet</p><h2>Game over</h2><p class="verdict">Mer enn 5 pop-ups på én gang. Internett vant denne runden.</p>
    <div class="stats"><div><span>Side</span><b>${lv.name}.no</b></div><div><span>Tid på siden</span><b>${fmt(clock)}</b></div><div><span>Bot-nivå</span><b>${plv}</b></div>
    <div><span>Pop-ups lukket</span><b>${st.pop}</b></div><div><span>Feil knapper trykket</span><b>${st.fake}</b></div></div>
    <button class="btn" id="retry">Prøv siden på nytt</button><button class="cs wide" id="restart" style="color:#c4ccda;border-color:#2d3546">Start helt på nytt</button>`;clearEl.hidden=false;
-    document.getElementById('retry').addEventListener('click',()=>{clearEl.hidden=true;U={...snap.U};plv=snap.plv;xp=snap.xp;pend=0;loadLevel(L);startCookie()});
+    document.getElementById('retry').addEventListener('click',()=>{clearEl.hidden=true;tot.time+=clock;U={...snap.U};plv=snap.plv;xp=snap.xp;pend=0;loadLevel(L);startCookie()});
     document.getElementById('restart').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()})},1100)}
 
 /* ---------- input ---------- */
@@ -633,19 +659,26 @@ function drawMagnet(){const m=MG,y=m.y+(m.fly<1?0:Math.sin(m.ph)*3);
   ctx.save();ctx.translate(m.x,y);ctx.rotate(Math.sin(m.ph*.8)*.25);ctx.lineCap='butt';ctx.lineWidth=7;ctx.strokeStyle='#e3120b';ctx.beginPath();ctx.moveTo(-9,-4);ctx.lineTo(-9,2);ctx.arc(0,2,9,Math.PI,0,true);ctx.lineTo(9,-4);ctx.stroke();
   ctx.strokeStyle='#c9d2e3';ctx.beginPath();ctx.moveTo(-9,-4);ctx.lineTo(-9,-11);ctx.moveTo(9,-4);ctx.lineTo(9,-11);ctx.stroke();ctx.restore()}
 function drawGem(g){const r=g.v>1?6:4;ctx.save();ctx.translate(g.x,g.y+Math.sin(g.ph)*1.5);ctx.rotate(Math.PI/4);ctx.fillStyle=g.v>1?'#0a8fa0':'#0fb5c9';ctx.fillRect(-r,-r,r*2,r*2);ctx.fillStyle='rgba(255,255,255,.6)';ctx.fillRect(-r,-r,r,r*.7);ctx.restore()}
+function poly(pts){ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fill()}
+function drawFox(flash,slow){const wag=Math.sin(clock*7)*.3,o=flash?'#fff':slow?'#d08a6a':'#F7941D',r=flash?'#fff':slow?'#b86a4c':'#EA5C2A',yl=flash?'#fff':'#FFC21A';
+  ctx.save();ctx.translate(7,9);ctx.rotate(-.5+wag);ctx.fillStyle=r;ctx.beginPath();ctx.moveTo(-4,0);ctx.quadraticCurveTo(-10,12,0,23);ctx.quadraticCurveTo(10,12,4,0);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(-4,15);ctx.quadraticCurveTo(0,26,4,15);ctx.quadraticCurveTo(0,18,-4,15);ctx.fill();ctx.restore();
+  const head=[[-15,-16],[-6,-7],[6,-7],[15,-16],[14,-1],[9,6],[0,15],[-9,6],[-14,-1]];
+  ctx.fillStyle='rgba(60,20,0,.35)';ctx.save();ctx.translate(0,1.2);poly(head);ctx.restore();
+  ctx.fillStyle=o;poly(head);ctx.fillStyle=r;poly([[-15,-16],[-6,-7],[0,-7],[0,15],[-9,6],[-14,-1]]);
+  ctx.fillStyle=yl;poly([[0,-1],[9,6],[0,15]]);ctx.fillStyle=flash?'#fff':'#FFD9A0';poly([[0,-1],[-9,6],[0,15]]);
+  ctx.fillStyle='#1a1a1a';poly([[-15,-16],[-10,-13],[-13,-10]]);poly([[15,-16],[10,-13],[13,-10]]);poly([[-3,11],[3,11],[0,15]]);
+  for(const sx of [-1,1]){ctx.save();ctx.translate(sx*6,0);ctx.rotate(sx*.38);ctx.fillStyle='#1a1a1a';ctx.beginPath();ctx.ellipse(0,0,3.8,1.9,0,0,6.28);ctx.fill();ctx.restore();
+    ctx.fillStyle='#fff';circ(sx*6+Math.cos(aim)*1.3,-.4+Math.sin(aim)*.6,.9);ctx.fill()}}
 function drawPlayer(){ctx.save();ctx.translate(P.x,P.y);
   ctx.fillStyle='rgba(10,20,40,.14)';ctx.beginPath();ctx.ellipse(0,15,12,4,0,0,6.28);ctx.fill();
   if(U.shield&&shieldOK){ctx.strokeStyle='rgba(18,161,80,.7)';ctx.lineWidth=2;ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3+clock*.6;ctx.lineTo(Math.cos(a)*21,Math.sin(a)*21)}ctx.closePath();ctx.stroke()}
   if(P.slow>0){ctx.strokeStyle='#ff2d95';ctx.lineWidth=2;ctx.setLineDash([4,4]);ctx.lineDashOffset=-clock*30;circ(0,0,25);ctx.stroke();ctx.setLineDash([])}
   if(P.inv>0&&(clock*12|0)%2)ctx.globalAlpha=.45;
-  ctx.strokeStyle='#0a6f7c';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,-12);ctx.lineTo(0,-19);ctx.stroke();
-  ctx.fillStyle=(clock*2%1<.5)?'#ffd400':'#0fb5c9';circ(0,-20,3);ctx.fill();
-  ctx.fillStyle=P.flash>0?'#fff':(P.slow>0?'#73a8b1':'#0fb5c9');circ(0,0,13);ctx.fill();ctx.stroke();
-  ctx.fillStyle='rgba(255,255,255,.35)';circ(-4,-5,5);ctx.fill();
-  ctx.rotate(aim);ctx.fillStyle='#e9fbff';rr(1,-6,12,12,5);ctx.fill();ctx.fillStyle='#06323a';circ(9,0,3);ctx.fill();
+  drawFox(P.flash>0,P.slow>0);
   ctx.restore();ctx.globalAlpha=1;
   if(U.orbit){const n=U.orbit+1;for(let i=0;i<n;i++){const ox=P.x+Math.cos(orbA+i*6.283/n)*46,oy=P.y+Math.sin(orbA+i*6.283/n)*46;
-    ctx.fillStyle='rgba(15,181,201,.25)';circ(ox,oy,11);ctx.fill();ctx.fillStyle='#0fb5c9';ctx.strokeStyle='#fff';ctx.lineWidth=2;circ(ox,oy,7);ctx.fill();ctx.stroke()}}}
+    ctx.fillStyle='rgba(247,148,29,.25)';circ(ox,oy,11);ctx.fill();ctx.fillStyle='#EA5C2A';ctx.strokeStyle='#fff';ctx.lineWidth=2;circ(ox,oy,7);ctx.fill();ctx.stroke()}}}
 function drawTracker(e){const a=Math.atan2(P.y-e.y,P.x-e.x);ctx.save();ctx.translate(e.x,e.y);
   ctx.strokeStyle='rgba(255,45,149,.5)';ctx.lineWidth=1.5;ctx.setLineDash([3,4]);ctx.lineDashOffset=e.ph*6;circ(0,0,13);ctx.stroke();ctx.setLineDash([]);
   ctx.fillStyle=e.flash>0?'#fff':'#ff2d95';circ(0,0,8.5);ctx.fill();
@@ -732,7 +765,7 @@ function drawChrome(){
   for(let i=0;i<5;i++){ctx.fillStyle=i<tag?'#ff2d95':'#2d3546';rr(144+i*11,41,8,10,2);ctx.fill()}
   const pt=popTotal(),hot=pt>=4&&(clock*5|0)%2===0;ctx.strokeStyle=hot?'#ff3b30':'#c9d2e3';ctx.lineWidth=1.5;rr(208,40,14,12,2);ctx.stroke();ctx.fillStyle=hot?'#ff3b30':'#c9d2e3';ctx.fillRect(208,40,14,3);
   for(let i=0;i<5;i++){ctx.fillStyle=i<pt?(pt>=4?'#ff3b30':'#ffb347'):'#2d3546';rr(228+i*11,41,8,10,2);ctx.fill()}
-  ctx.fillStyle='#fff';ctx.font='700 13px Rubik,sans-serif';ctx.textAlign='right';ctx.fillText(fmt(clock),W-14,51);ctx.textAlign='left';
+  ctx.fillStyle='#fff';ctx.font='700 13px Rubik,sans-serif';ctx.textAlign='right';ctx.fillText(fmt(tot.time+(mode==='clear'||mode==='end'?0:clock)),W-14,51);ctx.textAlign='left';
   ctx.fillStyle='#262e3f';ctx.fillRect(0,HUD-4,W,4);ctx.fillStyle='#0fb5c9';ctx.fillRect(0,HUD-4,W*Math.min(1,xp/need()),4)}
 function draw(){
   ctx.setTransform(s*dpr,0,0,s*dpr,0,0);ctx.fillStyle='#eef0f4';ctx.fillRect(0,0,W,H);
@@ -747,7 +780,7 @@ function draw(){
   for(const e of E)if(e.type==='tr'&&Math.hypot(e.x-P.x,e.y-P.y)<420){ctx.beginPath();ctx.moveTo(e.x,e.y);ctx.lineTo(P.x,P.y);ctx.stroke()}ctx.setLineDash([]);
   for(const e of E)if(e.type==='ad')drawAd(e);if(Bo&&!Bo.dead)drawBoss();for(const e of E)if(e.type==='tr')drawTracker(e);BP.forEach(drawBP);
   for(const r of RG){ctx.globalAlpha=r.l/.35;ctx.strokeStyle='#0fb5c9';ctx.lineWidth=4;circ(r.x,r.y,r.r);ctx.stroke();ctx.fillStyle='rgba(15,181,201,.08)';ctx.fill()}ctx.globalAlpha=1;
-  ctx.strokeStyle='#0fb5c9';ctx.lineWidth=3;ctx.lineCap='round';for(const b of B){ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(b.x-b.vx*.014,b.y-b.vy*.014);ctx.stroke()}ctx.lineCap='butt';
+  ctx.strokeStyle='#F7941D';ctx.lineWidth=3.5;ctx.lineCap='round';for(const b of B){ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(b.x-b.vx*.014,b.y-b.vy*.014);ctx.stroke()}ctx.lineCap='butt';
   drawPlayer();if(BP.some(q=>q.home))drawReticle();
   for(const p of PT){ctx.globalAlpha=Math.min(1,p.l*2.5);ctx.fillStyle=p.c;ctx.fillRect(p.x-p.s/2,p.y-p.s/2,p.s,p.s)}ctx.globalAlpha=1;
   ctx.textAlign='center';ctx.font='700 12px Rubik,sans-serif';

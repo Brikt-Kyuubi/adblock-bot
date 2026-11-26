@@ -17,7 +17,22 @@ Spilleren styrer en adblock-bot med en flytende joystick (dra hvor som helst) el
 - ALL reklame i spillet er disse merkevarene: reklameflater, reklamemonstre (med merkets symbol), boss-skudd og reklame-pop-ups. Ingen generiske/anonyme annonser.
   Nettsidens egne pop-ups (cookie-banner, varsler, «Skal du gå allerede?», betalingsmur) tilhører den fiktive nettsiden.
 - Logoer ligger inline i `LOGO_SRC` (full logo + `_s` = symbol). PNG fra eierens filer, SVG for PopUpGolf og Lagkassa+.
-- Spillet er også Kyuubi Creative sitt 5-årsjubileum (meny og sluttskjerm).
+- Spillet er også Kyuubi Creative sitt 5-årsjubileum (meny og sluttskjerm). Spilleren er en rev i Kyuubi-stil (`drawFox`), menyene bruker Kyuubi-solnedgangen og Poppins.
+- Målet er raskeste totaltid gjennom alle tre sidene (`tot.time`). Mislykkede forsøk teller med i tiden. Beste tid lagres lokalt (`ab_best`).
+- Toppliste: `LB = {url, key}` (Supabase REST). Tomt = av. Tabell:
+  ```sql
+  create table public.scores (
+    id bigint generated always as identity primary key,
+    name text not null check (char_length(name) between 1 and 20),
+    time_ms integer not null check (time_ms between 60000 and 3600000),
+    version text,
+    created_at timestamptz not null default now()
+  );
+  alter table public.scores enable row level security;
+  create policy "alle kan lese" on public.scores for select using (true);
+  create policy "alle kan sende inn" on public.scores for insert with check (true);
+  ```
+  Bruk publishable/anon-nøkkelen (den er laget for å ligge i nettleseren). Uten innlogging kan hvem som helst sende inn falske tider.
 
 ## Arbeidsflyt
 - Utvikles i Claude-chat, pushes til `main`, GitHub Pages publiserer automatisk.
