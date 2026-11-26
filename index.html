@@ -459,10 +459,10 @@ function showEnd(){mode='end';const ms=Math.round(tot.time*1000);let best=0;try{
   document.getElementById('again').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()});
   lbSetup(ms)}
 const VERSION='v8';
-const LB={url:'',key:''}; /* Supabase: prosjekt-URL og publishable/anon-nøkkel. Tomt = toppliste av. */
+const LB={url:'https://fhdouutorqgdrwjhjdkz.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoZG91dXRvcnFnZHJ3amhqZGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwMTA5NDEsImV4cCI6MjA2NTU4Njk0MX0.nTLlHG44cOtrd6m5uC2WvQ7zRstd3onOzqqe0lnPuU4',table:'adblock_scores'}; /* Supabase: prosjekt-URL og publishable/anon-nøkkel. Tomt = toppliste av. */
 const lbOn=()=>!!(LB.url&&LB.key),lbHead=()=>({apikey:LB.key,Authorization:'Bearer '+LB.key,'Content-Type':'application/json'});
-async function lbTop(n){const r=await fetch(`${LB.url}/rest/v1/scores?select=name,time_ms&order=time_ms.asc&limit=${n}`,{headers:lbHead()});if(!r.ok)throw new Error(r.status);return r.json()}
-async function lbSend(name,ms){const r=await fetch(`${LB.url}/rest/v1/scores`,{method:'POST',headers:{...lbHead(),Prefer:'return=minimal'},body:JSON.stringify({name,time_ms:ms,version:VERSION})});if(!r.ok)throw new Error(r.status)}
+async function lbTop(n){const r=await fetch(`${LB.url}/rest/v1/${LB.table}?select=name,time_ms&order=time_ms.asc&limit=${n}`,{headers:lbHead()});if(!r.ok)throw new Error(r.status);return r.json()}
+async function lbSend(name,ms){const r=await fetch(`${LB.url}/rest/v1/${LB.table}`,{method:'POST',headers:{...lbHead(),Prefer:'return=minimal'},body:JSON.stringify({name,time_ms:ms,version:VERSION})});if(!r.ok)throw new Error(r.status)}
 function lbRender(list,el,me){el.innerHTML='';list.forEach(r=>{const li=document.createElement('li'),a=document.createElement('span'),b=document.createElement('b');a.textContent=r.name;b.textContent=fmt(r.time_ms/1000);li.append(a,b);if(me&&r.name===me.name&&r.time_ms===me.ms)li.className='me';el.append(li)})}
 function lbSetup(ms){const f=document.getElementById('lbf'),inp=document.getElementById('lbn'),s=document.getElementById('lbs'),ol=document.getElementById('lbl');
   if(!lbOn()){f.hidden=true;s.textContent='Felles toppliste kommer snart';let best=0;try{best=+localStorage.getItem('ab_best')||0}catch(e){}lbRender([{name:'Din beste tid',time_ms:best||ms}],ol);return}
