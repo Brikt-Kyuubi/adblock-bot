@@ -76,7 +76,7 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
 .lbh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-size:15px}.lbh span{font-size:12px;opacity:.8}
 .lbf{display:flex;gap:8px;margin-bottom:8px}.lbf input{flex:1;min-width:0;border:0;border-radius:30px;padding:0 16px;height:44px;font:500 16px Poppins,sans-serif;color:#2a2340;-webkit-user-select:text;user-select:text}
 .btn.sm{min-height:44px;padding:0 16px;font-size:12px;letter-spacing:1.5px;box-shadow:none}
-.lbl{list-style:none;margin:0;padding:0;counter-reset:r}.lbl li{display:flex;gap:10px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.15);font-size:14px;counter-increment:r}
+.lbl{list-style:none;margin:0;padding:0;counter-reset:r}.lbl li{display:flex;gap:10px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.15);font-size:14px;counter-increment:r}
 .lbl li::before{content:counter(r);width:18px;opacity:.7}.lbl li span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lbl li b{font-variant-numeric:tabular-nums}.lbl li.me{color:#FFD27A}
 .lbl:empty{display:none}.lbf[hidden]{display:none}
 .cards{display:grid;gap:12px;margin-top:14px}
@@ -166,7 +166,8 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
 @keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
 @media (prefers-reduced-motion:reduce){.cta,.pop,#cookie,.card{animation:none}}
 [hidden]{display:none!important}
-.screen{touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.screen{touch-action:none;overscroll-behavior:contain}
+.acts{position:sticky;bottom:-26px;z-index:2;margin:14px -28px -26px;padding:16px 28px 18px;background:linear-gradient(180deg,rgba(40,30,70,0),rgba(40,30,70,.92) 22%,rgba(40,30,70,.97))}.acts>.btn{width:100%}
 .srow{display:flex;gap:8px;margin-top:10px}.srow .btn.sec{flex:1;margin:0;font-size:11px;letter-spacing:1px;padding:10px 8px;min-height:46px;line-height:1.25}
 .btn.sec{background:linear-gradient(180deg,#8a5cf0,#4b2a9e);box-shadow:0 8px 24px rgba(75,42,158,.45);margin-top:10px}
 .pop:is(.pt-kid,.pt-troll){width:250px;background:#fffdf4;border:3px solid #8a5cf0;font-family:Rubik,sans-serif;color:#2b1d55}
@@ -202,10 +203,10 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
       <li><i class="ic pp"></i>Pop-ups må klikkes bort. Mer enn 5 på en gang, og nettleseren krasjer.</li>
       <li><i class="ic mv"></i>Dra hvor som helst for å styre (WASD på PC). Boten skyter selv.</li>
     </ul>
-    <button class="btn" id="go">Start surfing</button>
-    <div class="srow"><button class="btn sec" id="sgo" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgof" hidden>Spill som Korny</button></div>
+    <div class="acts"><button class="btn" id="go">Start surfing</button>
+    <div class="srow"><button class="btn sec" id="sgo" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgof" hidden>Spill som Korny</button></div></div>
     <p class="note" id="mbest"></p>
-    <p class="note">v9.3 · all reklamen i spillet er for våre egne prosjekter</p>
+    <p class="note">v9.4 · all reklamen i spillet er for våre egne prosjekter</p>
   </div>
   <div class="screen" id="lu" hidden></div>
   <div class="screen" id="clear" hidden></div>
@@ -512,12 +513,12 @@ function showEnd(){mode='end';const ms=Math.round(tot.time*1000);let best=0;try{
   clearEl.innerHTML=`<p class="kick">Kyuubi Creative 5 år</p><h2>Fra kaos til klarhet på</h2><div class="big">${fmt(tot.time)}</div><p class="verdict">${pbt}</p>
    <div class="lbw"><div class="lbh"><b>Toppliste</b><span id="lbs"></span></div><form class="lbf" id="lbf"><input id="lbn" maxlength="20" placeholder="Navnet ditt" autocomplete="nickname"><button class="btn sm" type="submit">Send inn</button></form><ol class="lbl" id="lbl"></ol></div>
    <div class="stats"><div><span>Reklame blokkert</span><b>${tot.ad}</b></div><div><span>Pop-ups lukket</span><b>${tot.pop}</b></div><div><span>Bot-nivå</span><b>${plv}</b></div></div>
-   <p class="note" style="margin:0 0 14px;text-align:left">Takk for at du spilte, og for fem år med Kyuubi Creative.</p><div class="srow"><button class="btn sec" id="sgo2" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgo2f" hidden>Spill som Korny</button></div><button class="btn" id="again" style="margin-top:10px">Spill igjen</button>`;
+   <p class="note" style="margin:0 0 14px;text-align:left">Takk for at du spilte, og for fem år med Kyuubi Creative.</p><div class="acts"><button class="btn" id="again">Spill igjen</button><div class="srow"><button class="btn sec" id="sgo2" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgo2f" hidden>Spill som Korny</button></div></div>`;
   clearEl.hidden=false;
   document.getElementById('again').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()});
   {const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');b.addEventListener('click',()=>startSecret(true,false));f.addEventListener('click',()=>startSecret(true,true));if(secretOn()){b.hidden=false;f.hidden=false}}
   lbSetup(ms)}
-const VERSION='v9.3';
+const VERSION='v9.4';
 const LB={url:'https://fhdouutorqgdrwjhjdkz.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoZG91dXRvcnFnZHJ3amhqZGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwMTA5NDEsImV4cCI6MjA2NTU4Njk0MX0.nTLlHG44cOtrd6m5uC2WvQ7zRstd3onOzqqe0lnPuU4',table:'adblock_scores'}; /* Supabase: prosjekt-URL og publishable/anon-nøkkel. Tomt = toppliste av. */
 const lbOn=()=>!!(LB.url&&LB.key),lbHead=()=>({apikey:LB.key,Authorization:'Bearer '+LB.key,'Content-Type':'application/json'});
 async function lbTop(n){const r=await fetch(`${LB.url}/rest/v1/${LB.table}?select=name,time_ms&order=time_ms.asc&limit=${n}`,{headers:lbHead()});if(!r.ok)throw new Error(r.status);return r.json()}
@@ -551,7 +552,15 @@ addEventListener('keydown',e=>{K.add(e.code);if(e.code.startsWith('Arrow'))e.pre
   if(mode==='levelup'&&/^Digit[123]$/.test(e.code)){const c=luEl.querySelectorAll('.card')[+e.code.slice(5)-1];if(c&&!c.disabled)pick(+c.dataset.i)}});
 addEventListener('keyup',e=>K.delete(e.code));
 addEventListener('blur',()=>{K.clear();joy=null});
-document.addEventListener('touchmove',e=>{if(!(e.target.closest&&e.target.closest('.screen')))e.preventDefault()},{passive:false});
+document.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
+(()=>{let t=null,raf=0;const kill=e=>{e.stopPropagation();e.preventDefault()};
+  document.addEventListener('touchstart',e=>{cancelAnimationFrame(raf);const sc=e.target.closest&&e.target.closest('.screen');if(!sc||e.touches.length!==1){t=null;return}
+    const k=sc.getBoundingClientRect().height/sc.offsetHeight||1;t={sc,k,y0:e.touches[0].clientY,s0:sc.scrollTop,ly:e.touches[0].clientY,lt:performance.now(),v:0,moved:false}},{passive:true});
+  document.addEventListener('touchmove',e=>{if(!t)return;const y=e.touches[0].clientY,now=performance.now();if(Math.abs(y-t.y0)>8)t.moved=true;
+    t.sc.scrollTop=t.s0-(y-t.y0)/t.k;const dt=Math.max(1,now-t.lt);t.v=.8*((t.ly-y)/t.k/dt)+.2*t.v;t.ly=y;t.lt=now},{passive:true});
+  document.addEventListener('touchend',()=>{if(!t)return;const{sc,moved}=t;let v=t.v*16;t=null;
+    if(moved){document.addEventListener('click',kill,true);setTimeout(()=>document.removeEventListener('click',kill,true),350)}
+    const step=()=>{if(Math.abs(v)<.4)return;sc.scrollTop+=v;v*=.94;raf=requestAnimationFrame(step)};if(moved)step()},{passive:true})})();
 
 /* ---------- spawning ---------- */
 function spawnPos(){for(let i=0;i<30;i++){const side=Math.random()*4|0;let x,y;
