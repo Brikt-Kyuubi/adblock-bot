@@ -206,7 +206,7 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
     <div class="acts"><button class="btn" id="go">Start surfing</button>
     <div class="srow"><button class="btn sec" id="sgo" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgof" hidden>Spill som Korny</button></div></div>
     <p class="note" id="mbest"></p>
-    <p class="note">v9.5 · all reklamen i spillet er for våre egne prosjekter</p>
+    <p class="note">v9.6 · all reklamen i spillet er for våre egne prosjekter</p>
   </div>
   <div class="screen" id="lu" hidden></div>
   <div class="screen" id="clear" hidden></div>
@@ -518,7 +518,7 @@ function showEnd(){mode='end';const ms=Math.round(tot.time*1000);let best=0;try{
   document.getElementById('again').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()});
   {const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');b.addEventListener('click',()=>startSecret(true,false));f.addEventListener('click',()=>startSecret(true,true));if(secretOn()){b.hidden=false;f.hidden=false}}
   lbSetup(ms)}
-const VERSION='v9.5';
+const VERSION='v9.6';
 const LB={url:'https://fhdouutorqgdrwjhjdkz.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoZG91dXRvcnFnZHJ3amhqZGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwMTA5NDEsImV4cCI6MjA2NTU4Njk0MX0.nTLlHG44cOtrd6m5uC2WvQ7zRstd3onOzqqe0lnPuU4',table:'adblock_scores'}; /* Supabase: prosjekt-URL og publishable/anon-nøkkel. Tomt = toppliste av. */
 const lbOn=()=>!!(LB.url&&LB.key),lbHead=()=>({apikey:LB.key,Authorization:'Bearer '+LB.key,'Content-Type':'application/json'});
 async function lbTop(n){const r=await fetch(`${LB.url}/rest/v1/${LB.table}?select=name,time_ms&order=time_ms.asc&limit=${n}`,{headers:lbHead()});if(!r.ok)throw new Error(r.status);return r.json()}
@@ -823,16 +823,19 @@ function drawLekse(e){const a=Math.atan2(P.y-e.y,P.x-e.x);ctx.save();ctx.transla
 function drawZ(e){const p=1+Math.sin(e.ph*2)*.12;ctx.save();ctx.translate(e.x,e.y);ctx.scale(p,p);ctx.rotate(Math.sin(e.ph)*.25);ctx.fillStyle='rgba(90,70,200,.18)';circ(0,0,13);ctx.fill();
   ctx.font='900 18px Rubik,sans-serif';ctx.textAlign='center';ctx.lineWidth=3;ctx.strokeStyle='#fff';ctx.strokeText('Z',-2,5);ctx.fillStyle=e.flash>0?'#fff':'#4b3fc4';ctx.fillText('Z',-2,5);
   ctx.font='900 10px Rubik,sans-serif';ctx.strokeText('z',8,-5);ctx.fillText('z',8,-5);ctx.restore();ctx.textAlign='left'}
-function drawKornyMini(flash,slow){const ea=aim,F=flash,C=F?['#fff','#fff','#fff','#fff']:['#8a5cf0','#6a3fd0','#4b2a9e','#b39bff'],T=8,st=clock*6|0,wv=Math.sin(clock*10)*4;
-  ctx.save();ctx.translate(0,Math.sin(clock*8)*1.2-2);ctx.scale(.42,.42);ctx.shadowColor='rgba(0,0,0,.3)';ctx.shadowBlur=6;
-  ctx.fillStyle=C[1];ctx.fillRect(-44,-6+wv,12,12);ctx.fillRect(32,-6-wv,12,12);
-  ctx.fillStyle=C[0];ctx.fillRect(-32,-34,64,60);ctx.shadowBlur=0;ctx.fillStyle=C[1];ctx.fillRect(16,-34,16,60);ctx.fillStyle=C[3];ctx.fillRect(-32,-34,48,6);
-  for(let i=0;i<8;i++){const hh=(i+st)%2?8:16;ctx.fillStyle=i>=6?C[1]:C[0];ctx.fillRect(-32+i*T,26,T,hh);ctx.fillStyle=C[2];ctx.fillRect(-32+i*T,23+hh,T,3)}
-  ctx.fillStyle=F?'#fff':'#16c2c2';ctx.fillRect(-30,-47,60,15);ctx.fillStyle=F?'#fff':'#0f8f8f';ctx.fillRect(-30,-35,60,3);ctx.fillRect(-48,-41,20,6);
-  ctx.fillStyle='#fff';ctx.fillRect(-22,-22,16,14);ctx.fillRect(4,-22,16,14);ctx.fillStyle='#1a0f33';const ox=Math.round(Math.cos(ea)*3),oy=Math.round(Math.sin(ea)*3);ctx.fillRect(-17+ox,-18+oy,6,6);ctx.fillRect(9+ox,-18+oy,6,6);
-  ctx.fillStyle='#2a1450';ctx.fillRect(-12,-2,24,8);ctx.fillStyle='#fff';ctx.fillRect(-10,-2,4,3);ctx.fillRect(6,-2,4,3);
-  if(slow&&!F){ctx.fillStyle='#4b3fc4';ctx.font='900 22px Rubik,sans-serif';ctx.fillText('z',34,-44)}
-  ctx.restore()}
+function drawKornyMini(flash,slow){const u=2.1,F=flash,c=(x)=>F?'#fff':x,R=(x,y,w,h,col)=>{ctx.fillStyle=c(col);ctx.fillRect(x*u,y*u,w*u,h*u)};
+  const mv=!!(joy||K.size),step=mv?(clock*8|0)%2:0,sw=Math.sin(clock*(mv?12:3))*1.2,dir=Math.cos(aim)<-.2?-1:1;
+  ctx.save();ctx.translate(0,Math.sin(clock*8)*1-3);ctx.scale(dir,1);ctx.shadowColor='rgba(0,0,0,.28)';ctx.shadowBlur=5;
+  R(-9+sw*.3,-8,3,4,'#3b2f2f');R(-10+sw*.6,-5,3,5,'#3b2f2f');R(-10+sw,-1,2,4,'#4a3a36');ctx.shadowBlur=0;R(-8+sw*.3,-10,3,2,'#b9a6ea');
+  R(-6,-11,12,3,'#3b2f2f');R(-7,-9,2,9,'#3b2f2f');R(5,-9,2,9,'#3b2f2f');
+  R(-5,-8,10,9,'#f3cba6');R(3,-8,2,9,'#e7b892');R(-5,-9,7,2,'#3b2f2f');R(2,-9,3,1,'#3b2f2f');R(-6,-8,2,4,'#3b2f2f');
+  R(-4,-5,1,1,'#2a1e1e');R(-3,-6,1,1,'#2a1e1e');R(-2,-5,1,1,'#2a1e1e');R(1,-5,1,1,'#2a1e1e');R(2,-6,1,1,'#2a1e1e');R(3,-5,1,1,'#2a1e1e');
+  R(-5,-3,2,1,'#f29a96');R(3,-3,2,1,'#f29a96');R(-3,-2,6,2,'#8a2f35');R(-2,-2,4,1,'#fff');
+  R(-6,1,12,8,'#c9bde8');R(3,1,3,8,'#aa9cd6');R(-5,0,10,2,'#e2daf5');R(0,2,1,7,'#8a7cc0');
+  R(-8,2,2,5+(step?0:1),'#c9bde8');R(6,2,2,5+(step?1:0),'#c9bde8');R(-8,7+(step?0:1),2,1,'#f3cba6');R(6,7+(step?1:0),2,1,'#f3cba6');
+  R(-4,9,3,2+step,'#2b3a5c');R(1,9,3,3-step,'#2b3a5c');
+  ctx.restore();
+  if(slow&&!F){ctx.fillStyle='#4b3fc4';ctx.font='900 12px Rubik,sans-serif';ctx.fillText('z',12,-24);ctx.font='900 8px Rubik,sans-serif';ctx.fillText('z',19,-30)}}
 function trollAttack(ph,a){const sh=(ang,sp,home,br)=>BP.push({x:Bo.x+Math.cos(ang)*34,y:Bo.y+Math.sin(ang)*34,a:ang,sp,home,l:4.5,br});
   if(ph===1)sh(a,150,.9,'nei');
   else if(ph===2){if(Bo.n%3===0)for(let i=0;i<10;i++)sh(i*.628+Bo.n,115,0,'klokke');else for(let i=-1;i<=1;i++)sh(a+i*.3,160,.7,'nei')}
