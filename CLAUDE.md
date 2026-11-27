@@ -44,6 +44,8 @@ Spilleren styrer en adblock-bot med en flytende joystick (dra hvor som helst) el
 - 25 % av pop-upene legges oppå spilleren i stedet for lengst unna (`showPop`).
 - Side 3 (Nettverket) snur cookie-veggen: «Godta alle» gir et level-up, «avvis» gir sporing.
 
+- Hemmelig nivå, flippet versjon (`LV[SECRET2]`, `flip:true`, kind `room`): Leggetid. Spilleren er en liten Korny (`drawKornyMini`), bossen er Leggetidstrollet (`drawTroll`, `trollAttack`, `trollState`): kaster «NEI»-bobler og vekkerklokker, og fra fase 2 slår han av lyset (`darkT`, `drawDark`). Fiender: lekser (`drawLekse`, gir pop-up) og zZZ (`drawZ`, gir treghet). Fotballene er data-pakkene. Pop-ups: lekser, leggetid, ipad, slippe, nei (`TROLLP`, klasse `pt-troll`). Egen rekord `ab_tbest`. Begge hemmelige versjoner låses opp samtidig.
+
 ## Arbeidsflyt
 - Utvikles i Claude-chat, pushes til `main`, GitHub Pages publiserer automatisk.
 - Test i headless Chromium (Playwright) før push. Ingen byggesteg.
