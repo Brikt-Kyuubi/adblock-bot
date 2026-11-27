@@ -46,6 +46,8 @@ Spilleren styrer en adblock-bot med en flytende joystick (dra hvor som helst) el
 
 - Hemmelig nivå, flippet versjon (`LV[SECRET2]`, `flip:true`, kind `room`): Leggetid. Spilleren er Korny som pikselfigur (`drawKornyMini`: hestehale med lilla strikk, stort smil, lilla jakke; laget etter et foto, men fotoet ligger IKKE i repoet), bossen er Leggetidstrollet (`drawTroll`, `trollAttack`, `trollState`): kaster «NEI»-bobler og vekkerklokker, og fra fase 2 slår han av lyset (`darkT`, `drawDark`). Fiender: lekser (`drawLekse`, gir pop-up) og zZZ (`drawZ`, gir treghet). Fotballene er data-pakkene. Pop-ups: lekser, leggetid, ipad, slippe, nei (`TROLLP`, klasse `pt-troll`). Egen rekord `ab_tbest`. Begge hemmelige versjoner låses opp samtidig.
 
+- Pause: knapp (`#pbtn`) ved siden av «Lyd», synlig bare når `mode==='play'`. Esc/P og bytte av fane pauser også. Pausemenyen (`openPause`) fremhever de to viktigste reglene (mer enn 5 pop-ups = tap, samle de grønne data-punktene for å åpne knappen øverst) og har «Fortsett» og «Avslutt til hovedmenyen» (`quitToMenu`, nullstiller runden). Klokka står stille i pause.
+
 ## Arbeidsflyt
 - Utvikles i Claude-chat, pushes til `main`, GitHub Pages publiserer automatisk.
 - Test i headless Chromium (Playwright) før push. Ingen byggesteg.

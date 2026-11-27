@@ -19,6 +19,13 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--
 #game{position:absolute;left:0;top:0;width:420px;height:760px;transform-origin:0 0;overflow:hidden;border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.35);background:#eef0f4}
 canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-action:none}
 #mute{position:absolute;right:8px;top:7px;height:26px;padding:0 10px;border:0;border-radius:13px;background:#262e3f;color:#c9d2e3;font:600 12px Rubik,sans-serif;cursor:pointer;z-index:9}
+#pbtn{position:absolute;right:66px;top:7px;width:36px;height:26px;border:0;border-radius:13px;background:#262e3f;cursor:pointer;z-index:9;display:flex;align-items:center;justify-content:center;gap:4px;padding:0}
+#pbtn i{display:block;width:4px;height:11px;border-radius:1px;background:#c9d2e3}
+.pkey{background:rgba(255,255,255,.12);border-radius:16px;padding:14px 16px;margin:0 0 16px}
+.pkey p{display:flex;gap:12px;align-items:flex-start;margin:0;font-size:14.5px;line-height:1.4;font-weight:600}.pkey p+p{margin-top:10px}.pkey b{color:#FFD27A}
+.pkey .ic{flex:none;margin-top:1px}
+.pstat{display:flex;gap:18px;font-size:13px;opacity:.85;margin:-6px 0 18px}.pstat b{font-variant-numeric:tabular-nums}
+.btn.ghost{background:rgba(255,255,255,.14);box-shadow:none;margin-top:10px}
 #mute.off{opacity:.55;text-decoration:line-through}
 #pops{position:absolute;inset:0;pointer-events:none;z-index:3}
 .pop{position:absolute;width:240px;background:#fff;color:#141414;border-radius:12px;box-shadow:0 14px 40px rgba(0,0,0,.38);pointer-events:auto;animation:popin .24s cubic-bezier(.3,1.6,.5,1)}
@@ -206,10 +213,12 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
     <div class="acts"><button class="btn" id="go">Start surfing</button>
     <div class="srow"><button class="btn sec" id="sgo" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgof" hidden>Spill som Korny</button></div></div>
     <p class="note" id="mbest"></p>
-    <p class="note">v9.6 · all reklamen i spillet er for våre egne prosjekter</p>
+    <p class="note">v9.7 · all reklamen i spillet er for våre egne prosjekter</p>
   </div>
   <div class="screen" id="lu" hidden></div>
   <div class="screen" id="clear" hidden></div>
+  <div class="screen" id="pause" hidden></div>
+  <button id="pbtn" aria-label="Pause" hidden><i></i><i></i></button>
   <button id="mute" aria-label="Lyd av/på">Lyd</button>
 </div>
 <script>
@@ -440,6 +449,22 @@ muteEl.addEventListener('click',()=>{muted=!muted;muteEl.classList.toggle('off',
 
 /* ---------- pop-ups: up to 3 on screen, a queue behind, more than 5 = crash ---------- */
 const popTotal=()=>PV.length+PQ.length;
+const pauseEl=document.getElementById('pause'),pbtn=document.getElementById('pbtn');
+function openPause(){if(mode!=='play')return;mode='pause';joy=null;K.clear();
+  const what=lv.flip?'fotballene':lv.secret?'samlekortene':'de grønne data-dokumentene',from=lv.boss?' Bossen slipper dem når du skader ham.':'',pops=PV.length+PQ.length;
+  pauseEl.innerHTML=`<p class="kick">Pause · ${lv.name}</p><h2>Pust litt</h2>
+   <div class="pstat"><span>Tid <b>${fmt((lv.secret?0:tot.time)+clock)}</b></span><span>Pop-ups <b>${pops}/5</b></span><span>Funnet <b>${got}/${dataTotal}</b></span></div>
+   <div class="pkey"><p><i class="ic pp"></i><span>Har du <b>mer enn 5 pop-ups</b> åpne eller i kø samtidig, krasjer nettleseren og du taper.</span></p>
+   <p><i class="ic doc"></i><span>Samle inn <b>${what}</b>.${from} Når du har alle, åpner <b>knappen helt øverst</b> seg, og du kommer videre.</span></p></div>
+   <ul class="rules"><li><i class="ic blk"></i>Reklameflater stenger veien. Skyt dem i stykker.</li><li><i class="ic tr"></i>Trackere gjør deg treg. Reklamemonstre gir deg pop-ups.</li><li><i class="ic pp"></i>Noen lukkekryss er falske. Se etter den ekte knappen.</li><li><i class="ic mv"></i>Dra hvor som helst for å styre (WASD på PC). Boten skyter selv.</li></ul>
+   <div class="acts"><button class="btn" id="presume">Fortsett</button><button class="btn ghost" id="pquit">Avslutt til hovedmenyen</button></div>`;
+  pauseEl.hidden=false;popsEl.style.visibility='hidden';
+  document.getElementById('presume').addEventListener('click',closePause);
+  document.getElementById('pquit').addEventListener('click',quitToMenu)}
+function closePause(){if(mode!=='pause')return;pauseEl.hidden=true;popsEl.style.visibility='';joy=null;mode='play'}
+function quitToMenu(){pauseEl.hidden=true;popsEl.style.visibility='';clearPops();cookieEl.hidden=true;luEl.hidden=true;clearEl.hidden=true;darkT=0;joy=null;newRun();loadLevel(0);mode='menu';menuEl.hidden=false;menuEl.scrollTop=0;menuBest()}
+pbtn.addEventListener('click',openPause);
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&mode==='play')openPause()});
 function clearPops(){popsEl.innerHTML='';PV=[];PQ=[];popDelay=-1}
 function addPop(type){if(mode!=='play')return;if(type==='brand')type=lv.flip?pickR(TROLLP):lv.secret?KIDP[Math.random()*KIDP.length|0]:lv.boss?['lk','brikt','briktdm'][Math.random()*3|0]:nextBrand();PQ.push(type);const t=popTotal();
   if(t>5){gameOver();return}if(t===5)float(P.x,P.y-44,'Én pop-up til = krasj!','#e3120b');else if(t===4)float(P.x,P.y-44,'Nettleseren sliter …','#e3120b');fillPops()}
@@ -518,7 +543,7 @@ function showEnd(){mode='end';const ms=Math.round(tot.time*1000);let best=0;try{
   document.getElementById('again').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()});
   {const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');b.addEventListener('click',()=>startSecret(true,false));f.addEventListener('click',()=>startSecret(true,true));if(secretOn()){b.hidden=false;f.hidden=false}}
   lbSetup(ms)}
-const VERSION='v9.6';
+const VERSION='v9.7';
 const LB={url:'https://fhdouutorqgdrwjhjdkz.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoZG91dXRvcnFnZHJ3amhqZGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwMTA5NDEsImV4cCI6MjA2NTU4Njk0MX0.nTLlHG44cOtrd6m5uC2WvQ7zRstd3onOzqqe0lnPuU4',table:'adblock_scores'}; /* Supabase: prosjekt-URL og publishable/anon-nøkkel. Tomt = toppliste av. */
 const lbOn=()=>!!(LB.url&&LB.key),lbHead=()=>({apikey:LB.key,Authorization:'Bearer '+LB.key,'Content-Type':'application/json'});
 async function lbTop(n){const r=await fetch(`${LB.url}/rest/v1/${LB.table}?select=name,time_ms&order=time_ms.asc&limit=${n}`,{headers:lbHead()});if(!r.ok)throw new Error(r.status);return r.json()}
@@ -548,7 +573,7 @@ cv.addEventListener('pointerdown',e=>{if(mode!=='play'||joy)return;const p=toLoc
 cv.addEventListener('pointermove',e=>{if(joy&&e.pointerId===joy.id){const p=toLocal(e);joy.x=p.x;joy.y=p.y}});
 const endJoy=e=>{if(joy&&e.pointerId===joy.id)joy=null};
 cv.addEventListener('pointerup',endJoy);cv.addEventListener('pointercancel',endJoy);
-addEventListener('keydown',e=>{K.add(e.code);if(e.code.startsWith('Arrow'))e.preventDefault();
+addEventListener('keydown',e=>{if(e.code==='Escape'||e.code==='KeyP'){if(mode==='play'){openPause();return}if(mode==='pause'){closePause();return}}K.add(e.code);if(e.code.startsWith('Arrow'))e.preventDefault();
   if(mode==='levelup'&&/^Digit[123]$/.test(e.code)){const c=luEl.querySelectorAll('.card')[+e.code.slice(5)-1];if(c&&!c.disabled)pick(+c.dataset.i)}});
 addEventListener('keyup',e=>K.delete(e.code));
 addEventListener('blur',()=>{K.clear();joy=null});
@@ -1025,7 +1050,7 @@ function drawMinimap(){const x=W-8,y0=HUD+6,h=VH-12,k=h/WH;
   if(exitOpen){ctx.fillStyle='#0fb5c9';circ(x+1,y0+3,4);ctx.fill()}if(Bo&&!Bo.dead&&!Bo.hide){ctx.fillStyle='#ff3b30';circ(x+1,y0+Bo.y*k,4);ctx.fill()}if(MG){ctx.fillStyle='#e3120b';ctx.fillRect(x-7,y0+MG.y*k-3,6,6)}}
 function drawChrome(){
   ctx.fillStyle='#161b26';ctx.fillRect(0,0,W,HUD);
-  ctx.fillStyle='#262e3f';rr(10,7,W-74,26,13);ctx.fill();
+  ctx.fillStyle='#262e3f';rr(10,7,W-118,26,13);ctx.fill();
   ctx.strokeStyle='#8fd18f';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(25,17,3,Math.PI,0);ctx.stroke();ctx.fillStyle='#8fd18f';ctx.fillRect(21,17,8,7);
   ctx.fillStyle='#c9d2e3';ctx.font='500 12px Rubik,sans-serif';ctx.fillText(lv.url,37,24);
   ctx.fillStyle='#fff';ctx.strokeStyle='#12a150';ctx.lineWidth=2;rr(14,39,10,13,2);ctx.fill();ctx.stroke();
@@ -1067,7 +1092,7 @@ function draw(){
   drawChrome()}
 
 let last=performance.now();
-function loop(now){const dt=Math.min(.033,(now-last)/1000);last=now;if(mode==='play')update(dt);stepFx(dt);draw();requestAnimationFrame(loop)}
+function loop(now){const dt=Math.min(.033,(now-last)/1000);last=now;{const h=mode!=='play';if(pbtn.hidden!==h)pbtn.hidden=h}if(mode==='play')update(dt);stepFx(dt);draw();requestAnimationFrame(loop)}
 requestAnimationFrame(loop);
 }
 </script>
