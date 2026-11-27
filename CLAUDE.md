@@ -50,6 +50,8 @@ Spilleren styrer en adblock-bot med en flytende joystick (dra hvor som helst) el
 
 - BigBoss Korny-brettet er skjult (`KORNY_BOSS=false`). Koden ligger der, men knappene vises ikke. «Spill som Korny» (Leggetid) er bonusbrettet som låses opp på topp 10.
 
+- Toppliste-knapp i hovedmenyen (`#tbtn`) åpner `#board` (`openBoard`): topp 20 fra Supabase, egen beste tid på enheten, «Start surfing» og «Tilbake».
+
 ## Arbeidsflyt
 - Utvikles i Claude-chat, pushes til `main`, GitHub Pages publiserer automatisk.
 - Test i headless Chromium (Playwright) før push. Ingen byggesteg.

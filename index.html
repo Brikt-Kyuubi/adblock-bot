@@ -25,6 +25,9 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
 .pkey p{display:flex;gap:12px;align-items:flex-start;margin:0;font-size:14.5px;line-height:1.4;font-weight:600}.pkey p+p{margin-top:10px}.pkey b{color:#FFD27A}
 .pkey .ic{flex:none;margin-top:1px}
 .pstat{display:flex;gap:18px;font-size:13px;opacity:.85;margin:-6px 0 18px}.pstat b{font-variant-numeric:tabular-nums}
+.srow .btn.ghost{flex:1;margin:0;font-size:11px;letter-spacing:1px;padding:10px 8px;min-height:46px}
+#board .acts{background:none}
+.lbl.big li{font-size:15px;padding:7px 0}
 .btn.ghost{background:rgba(255,255,255,.14);box-shadow:none;margin-top:10px}
 #mute.off{opacity:.55;text-decoration:line-through}
 #pops{position:absolute;inset:0;pointer-events:none;z-index:3}
@@ -211,13 +214,14 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
       <li><i class="ic mv"></i>Dra hvor som helst for å styre (WASD på PC). Boten skyter selv.</li>
     </ul>
     <div class="acts"><button class="btn" id="go">Start surfing</button>
-    <div class="srow"><button class="btn sec" id="sgo" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgof" hidden>Bonusbrett: spill som Korny</button></div></div>
+    <div class="srow"><button class="btn ghost" id="tbtn">Toppliste</button><button class="btn sec" id="sgo" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgof" hidden>Bonusbrett: spill som Korny</button></div></div>
     <p class="note" id="mbest"></p>
-    <p class="note">v9.8 · all reklamen i spillet er for våre egne prosjekter</p>
+    <p class="note">v9.9 · all reklamen i spillet er for våre egne prosjekter</p>
   </div>
   <div class="screen" id="lu" hidden></div>
   <div class="screen" id="clear" hidden></div>
   <div class="screen" id="pause" hidden></div>
+  <div class="screen" id="board" hidden></div>
   <button id="pbtn" aria-label="Pause" hidden><i></i><i></i></button>
   <button id="mute" aria-label="Lyd av/på">Lyd</button>
 </div>
@@ -465,6 +469,19 @@ function openPause(){if(mode!=='play')return;mode='pause';joy=null;K.clear();
 function closePause(){if(mode!=='pause')return;pauseEl.hidden=true;popsEl.style.visibility='';joy=null;mode='play'}
 function quitToMenu(){pauseEl.hidden=true;popsEl.style.visibility='';clearPops();cookieEl.hidden=true;luEl.hidden=true;clearEl.hidden=true;darkT=0;joy=null;newRun();loadLevel(0);mode='menu';menuEl.hidden=false;menuEl.scrollTop=0;menuBest()}
 pbtn.addEventListener('click',openPause);
+const boardEl=document.getElementById('board');
+function openBoard(){menuEl.hidden=true;let best=0,me='';try{best=+localStorage.getItem('ab_best')||0;me=localStorage.getItem('ab_name')||''}catch(e){}
+  boardEl.innerHTML=`<p class="kick">Kyuubi Creative 5 år</p><h2>Toppliste</h2><p class="lead">Raskeste tid gjennom alle tre sidene. Mislykkede forsøk teller med.</p>
+   <div class="lbw"><div class="lbh"><b>Topp 20</b><span id="bls">Henter …</span></div><ol class="lbl big" id="bll"></ol></div>
+   <p class="note">${best?`Din beste tid på denne enheten: ${fmt(best/1000)}`:'Du har ikke fullført en runde på denne enheten ennå.'}</p>
+   <div class="acts"><button class="btn" id="bgo">Start surfing</button><button class="btn ghost" id="bback">Tilbake</button></div>`;
+  boardEl.hidden=false;boardEl.scrollTop=0;
+  document.getElementById('bback').addEventListener('click',()=>{boardEl.hidden=true;menuEl.hidden=false});
+  document.getElementById('bgo').addEventListener('click',()=>{boardEl.hidden=true;document.getElementById('go').click()});
+  const st=document.getElementById('bls'),ol=document.getElementById('bll');
+  lbTop(20).then(l=>{lbRender(l,ol);if(me)ol.querySelectorAll('li').forEach(li=>{if(li.firstChild.textContent===me)li.className='me'});st.textContent=l.length?(l.length<10?'Topp 10 gir bonusbrett':'Slå tiden på 10. plass for bonusbrett'):'Ingen tider ennå';if(!l.length)ol.innerHTML='<li><span>Bli den første på listen</span></li>'})
+    .catch(()=>{st.textContent='';ol.innerHTML='<li><span>Fikk ikke hentet topplisten</span></li>'})}
+document.getElementById('tbtn').addEventListener('click',openBoard);
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&mode==='play')openPause()});
 function clearPops(){popsEl.innerHTML='';PV=[];PQ=[];popDelay=-1}
 function addPop(type){if(mode!=='play')return;if(type==='brand')type=lv.flip?pickR(TROLLP):lv.secret?KIDP[Math.random()*KIDP.length|0]:lv.boss?['lk','brikt','briktdm'][Math.random()*3|0]:nextBrand();PQ.push(type);const t=popTotal();
@@ -544,7 +561,7 @@ function showEnd(){mode='end';const ms=Math.round(tot.time*1000);let best=0;try{
   document.getElementById('again').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()});
   {const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');b.addEventListener('click',()=>startSecret(true,false));f.addEventListener('click',()=>startSecret(true,true));if(secretOn()){b.hidden=!KORNY_BOSS;f.hidden=false}}
   lbSetup(ms)}
-const VERSION='v9.8';
+const VERSION='v9.9';
 const LB={url:'https://fhdouutorqgdrwjhjdkz.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoZG91dXRvcnFnZHJ3amhqZGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwMTA5NDEsImV4cCI6MjA2NTU4Njk0MX0.nTLlHG44cOtrd6m5uC2WvQ7zRstd3onOzqqe0lnPuU4',table:'adblock_scores'}; /* Supabase: prosjekt-URL og publishable/anon-nøkkel. Tomt = toppliste av. */
 const lbOn=()=>!!(LB.url&&LB.key),lbHead=()=>({apikey:LB.key,Authorization:'Bearer '+LB.key,'Content-Type':'application/json'});
 async function lbTop(n){const r=await fetch(`${LB.url}/rest/v1/${LB.table}?select=name,time_ms&order=time_ms.asc&limit=${n}`,{headers:lbHead()});if(!r.ok)throw new Error(r.status);return r.json()}
