@@ -15,7 +15,7 @@
 :root{color-scheme:light dark;--bg:light-dark(#d9dee7,#0b0f16);--ink:light-dark(#121722,#e9edf3)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
-html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:Rubik,system-ui,sans-serif;-webkit-user-select:none;user-select:none;touch-action:none;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:Rubik,system-ui,sans-serif;-webkit-user-select:none;user-select:none;touch-action:pan-y;overscroll-behavior:none;-webkit-tap-highlight-color:transparent}
 #game{position:absolute;left:0;top:0;width:420px;height:760px;transform-origin:0 0;overflow:hidden;border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.35);background:#eef0f4}
 canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-action:none}
 #mute{position:absolute;right:8px;top:7px;height:26px;padding:0 10px;border:0;border-radius:13px;background:#262e3f;color:#c9d2e3;font:600 12px Rubik,sans-serif;cursor:pointer;z-index:9}
@@ -166,6 +166,8 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
 @keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
 @media (prefers-reduced-motion:reduce){.cta,.pop,#cookie,.card{animation:none}}
 [hidden]{display:none!important}
+.screen{touch-action:pan-y;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.srow{display:flex;gap:8px;margin-top:10px}.srow .btn.sec{flex:1;margin:0;font-size:11px;letter-spacing:1px;padding:10px 8px;min-height:46px;line-height:1.25}
 .btn.sec{background:linear-gradient(180deg,#8a5cf0,#4b2a9e);box-shadow:0 8px 24px rgba(75,42,158,.45);margin-top:10px}
 .pop:is(.pt-kid,.pt-troll){width:250px;background:#fffdf4;border:3px solid #8a5cf0;font-family:Rubik,sans-serif;color:#2b1d55}
 .pop:is(.pt-kid,.pt-troll) .kh{display:flex;align-items:center;justify-content:space-between;gap:6px;background:#8a5cf0;color:#fff;font:800 16px/1.15 Rubik,sans-serif;padding:8px 6px 9px 12px;border-radius:8px 8px 0 0}
@@ -201,10 +203,9 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
       <li><i class="ic mv"></i>Dra hvor som helst for å styre (WASD på PC). Boten skyter selv.</li>
     </ul>
     <button class="btn" id="go">Start surfing</button>
-    <button class="btn sec" id="sgo" hidden>Hemmelig: mot BigBoss Korny</button>
-    <button class="btn sec" id="sgof" hidden>Hemmelig: spill som Korny</button>
+    <div class="srow"><button class="btn sec" id="sgo" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgof" hidden>Spill som Korny</button></div>
     <p class="note" id="mbest"></p>
-    <p class="note">v9.2 · all reklamen i spillet er for våre egne prosjekter</p>
+    <p class="note">v9.3 · all reklamen i spillet er for våre egne prosjekter</p>
   </div>
   <div class="screen" id="lu" hidden></div>
   <div class="screen" id="clear" hidden></div>
@@ -511,12 +512,12 @@ function showEnd(){mode='end';const ms=Math.round(tot.time*1000);let best=0;try{
   clearEl.innerHTML=`<p class="kick">Kyuubi Creative 5 år</p><h2>Fra kaos til klarhet på</h2><div class="big">${fmt(tot.time)}</div><p class="verdict">${pbt}</p>
    <div class="lbw"><div class="lbh"><b>Toppliste</b><span id="lbs"></span></div><form class="lbf" id="lbf"><input id="lbn" maxlength="20" placeholder="Navnet ditt" autocomplete="nickname"><button class="btn sm" type="submit">Send inn</button></form><ol class="lbl" id="lbl"></ol></div>
    <div class="stats"><div><span>Reklame blokkert</span><b>${tot.ad}</b></div><div><span>Pop-ups lukket</span><b>${tot.pop}</b></div><div><span>Bot-nivå</span><b>${plv}</b></div></div>
-   <p class="note" style="margin:0 0 14px;text-align:left">Takk for at du spilte, og for fem år med Kyuubi Creative.</p><button class="btn sec" id="sgo2" hidden>Topp 10! Hemmelig nivå →</button><button class="btn sec" id="sgo2f" hidden>Spill som Korny →</button><button class="btn" id="again" style="margin-top:10px">Spill igjen</button>`;
+   <p class="note" style="margin:0 0 14px;text-align:left">Takk for at du spilte, og for fem år med Kyuubi Creative.</p><div class="srow"><button class="btn sec" id="sgo2" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgo2f" hidden>Spill som Korny</button></div><button class="btn" id="again" style="margin-top:10px">Spill igjen</button>`;
   clearEl.hidden=false;
   document.getElementById('again').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()});
-  {const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');b.addEventListener('click',()=>startSecret(true,false));f.addEventListener('click',()=>startSecret(true,true));if(secretOn()){b.hidden=false;f.hidden=false;b.textContent='Mot BigBoss Korny →'}}
+  {const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');b.addEventListener('click',()=>startSecret(true,false));f.addEventListener('click',()=>startSecret(true,true));if(secretOn()){b.hidden=false;f.hidden=false}}
   lbSetup(ms)}
-const VERSION='v9.2';
+const VERSION='v9.3';
 const LB={url:'https://fhdouutorqgdrwjhjdkz.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoZG91dXRvcnFnZHJ3amhqZGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwMTA5NDEsImV4cCI6MjA2NTU4Njk0MX0.nTLlHG44cOtrd6m5uC2WvQ7zRstd3onOzqqe0lnPuU4',table:'adblock_scores'}; /* Supabase: prosjekt-URL og publishable/anon-nøkkel. Tomt = toppliste av. */
 const lbOn=()=>!!(LB.url&&LB.key),lbHead=()=>({apikey:LB.key,Authorization:'Bearer '+LB.key,'Content-Type':'application/json'});
 async function lbTop(n){const r=await fetch(`${LB.url}/rest/v1/${LB.table}?select=name,time_ms&order=time_ms.asc&limit=${n}`,{headers:lbHead()});if(!r.ok)throw new Error(r.status);return r.json()}
@@ -550,7 +551,7 @@ addEventListener('keydown',e=>{K.add(e.code);if(e.code.startsWith('Arrow'))e.pre
   if(mode==='levelup'&&/^Digit[123]$/.test(e.code)){const c=luEl.querySelectorAll('.card')[+e.code.slice(5)-1];if(c&&!c.disabled)pick(+c.dataset.i)}});
 addEventListener('keyup',e=>K.delete(e.code));
 addEventListener('blur',()=>{K.clear();joy=null});
-document.addEventListener('touchmove',e=>e.preventDefault(),{passive:false});
+document.addEventListener('touchmove',e=>{if(!(e.target.closest&&e.target.closest('.screen')))e.preventDefault()},{passive:false});
 
 /* ---------- spawning ---------- */
 function spawnPos(){for(let i=0;i<30;i++){const side=Math.random()*4|0;let x,y;
@@ -665,7 +666,7 @@ const BALL_TXT=['Redning!','Blokk!','Utenfor','Over mål'];
 SFX.vanish=()=>tone(640,.35,'sine',.05,110);SFX.appear=()=>tone(170,.22,'triangle',.07,560);SFX.fuse=()=>tone(1300,.45,'square',.012,1700);SFX.lick=()=>{tone(300,.12,'sawtooth',.04,520);tone(520,.1,'sawtooth',.03,260,.12)};
 const secretOn=()=>{try{return localStorage.getItem('ab_secret')==='1'}catch(e){return false}};
 function secretCheck(ms,l){if(!(l.length<10||ms<=l[l.length-1].time_ms))return;try{localStorage.setItem('ab_secret','1')}catch(e){}
-  const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');if(b&&b.hidden){b.hidden=false;f.hidden=false;b.textContent='Topp 10! Mot BigBoss Korny →';SFX.lvl()}}
+  const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');if(b&&b.hidden){b.hidden=false;f.hidden=false;SFX.lvl()}}
 function startSecret(keep,flip){darkT=0;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)()}catch(e){AC=null}
   menuEl.hidden=true;clearEl.hidden=true;if(!keep){newRun();plv=8;pend=7}else pend=0;enterLevel(flip?SECRET2:SECRET);begin()}
 document.getElementById('sgo').addEventListener('click',()=>startSecret(false,false));document.getElementById('sgof').addEventListener('click',()=>startSecret(false,true));
