@@ -40,6 +40,10 @@ Spilleren styrer en adblock-bot med en flytende joystick (dra hvor som helst) el
   - Pop-ups: tegning, kort, maal, fotball (`KIDP`, klasse `pt-kid`).
   - IKKE bruk Pokémon-, Gengar- eller Minecraft/creeper-figurer, navn eller logoer. Alt skal være egne design.
 
+- Vanskelighet: angrepsoppgraderinger (`OFF` = rate, multi, pierce, dmg) gir fiendene en motoppgradering (`enemyBuff`, `EB`): +20 % helse, +12 % spawn eller +8 % fart (fart maks ca. 1,35×). Kortene viser «Reklamen svarer med en oppgradering», og et rødt banner vises etter valget. `EB` nullstilles i `newRun` og lagres i `snap` ved nytt nivå.
+- 25 % av pop-upene legges oppå spilleren i stedet for lengst unna (`showPop`).
+- Side 3 (Nettverket) snur cookie-veggen: «Godta alle» gir et level-up, «avvis» gir sporing.
+
 ## Arbeidsflyt
 - Utvikles i Claude-chat, pushes til `main`, GitHub Pages publiserer automatisk.
 - Test i headless Chromium (Playwright) før push. Ingen byggesteg.

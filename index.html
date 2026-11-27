@@ -87,6 +87,7 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
 .card .chip{grid-row:span 3;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font:800 15px Rubik,sans-serif}
 .card .chip.w{background:#0fb5c9;color:#05252b}.card .chip.d{background:#12a150;color:#fff}.card .chip.u{background:#ffd400;color:#3a2c00}
 .card b{font-size:17px}
+.card em.ctr{display:block;font-style:normal;font-weight:600;font-size:12px;color:#ff7a95;margin-top:3px}
 .card span{font-size:13px;color:#b9c2d2;line-height:1.35}
 .pips{display:flex;gap:4px}.pips i{width:14px;height:5px;border-radius:3px;background:#2d3546}.pips i.on{background:#ffd400}.pips i.new{background:#0fb5c9}
 
@@ -198,7 +199,7 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
     <button class="btn" id="go">Start surfing</button>
     <button class="btn sec" id="sgo" hidden>Hemmelig nivå</button>
     <p class="note" id="mbest"></p>
-    <p class="note">v9 · all reklamen i spillet er for våre egne prosjekter</p>
+    <p class="note">v9.1 · all reklamen i spillet er for våre egne prosjekter</p>
   </div>
   <div class="screen" id="lu" hidden></div>
   <div class="screen" id="clear" hidden></div>
@@ -337,9 +338,9 @@ const UPG=[
 
 /* ---------- state ---------- */
 let mode='menu',L=0,lv=LV[0],blocks=[],P,E=[],B=[],PT=[],FL=[],WN=[],D=[],G=[],RG=[],got=0,exitOpen=false,tag=0,tagT=0,trT=2,adT=4,fireT=0,shake=0,clock=0,aim=-Math.PI/2,hintT=0,joy=null,st,tot;
-let MG=null,Bo=null,BP=[],bossT=0,introT=0,dataTotal=0,U,plv=1,xp=0,pend=0,orbA=0,pulseT=2,shieldOK=true,shieldT=0,PV=[],PQ=[],popDelay=-1,popSched=[],popNext=0,snap=null,decor=[],camX=0,camY=0,luCards=[];
+let EB={hp:1,sp:1,sr:1,n:0},ctrMsg=null,MG=null,Bo=null,BP=[],bossT=0,introT=0,dataTotal=0,U,plv=1,xp=0,pend=0,orbA=0,pulseT=2,shieldOK=true,shieldT=0,PV=[],PQ=[],popDelay=-1,popSched=[],popNext=0,snap=null,decor=[],camX=0,camY=0,luCards=[];
 const K=new Set();
-function newRun(){tot={tr:0,ad:0,pop:0,fake:0,time:0,score:0,levels:0};U={};UPG.forEach(u=>U[u.id]=0);plv=1;xp=0;pend=0}
+function newRun(){EB={hp:1,sp:1,sr:1,n:0};tot={tr:0,ad:0,pop:0,fake:0,time:0,score:0,levels:0};U={};UPG.forEach(u=>U[u.id]=0);plv=1;xp=0;pend=0}
 const need=()=>Math.round(4+plv*3+plv*plv*.35);
 const fireI=()=>.46*Math.pow(.82,U.rate),range=()=>200*(1+.25*U.range),spd=()=>165*(1+.12*U.speed),magR=()=>95*(1+.5*U.magnet);
 const slowDur=()=>3.2*(1-.22*U.incog),slowF=()=>.5+.1*U.incog,tagDecay=()=>7-1.6*U.incog,autoClose=()=>[0,8,5,3][U.blocker];
@@ -381,7 +382,7 @@ function placeData(n){const out=[];let tries=0;
 function loadLevel(i){L=i;lv=LV[i];WW=lv.ww||720;WH=lv.wh||1700;{const pg=genPage(lv.kind);blocks=pg.ads;decor=pg.dec}P={x:WW/2,y:WH-60,slow:0,flash:0,inv:0};E=[];B=[];PT=[];FL=[];WN=[];G=[];RG=[];D=lv.boss?[]:placeData(lv.data);dataTotal=lv.boss?lv.data:D.length;Bo=lv.boss?makeBoss():null;BP=[];bossT=0;introT=lv.boss?3:0;MG=null;
   got=0;exitOpen=false;tag=0;tagT=0;trT=2.2;adT=5;clock=0;joy=null;shieldOK=true;shieldT=0;pulseT=2;
   st={tr:0,ad:0,pop:0,fake:0,trHit:0,adHit:0,cookie:0,boss:0,blk:0};clearPops();popSched=lv.secret?[[8,'tegning'],[24,'kort'],[40,'maal']]:lv.boss?[[12,'brikt'],[34,'briktdm']]:[[7,'notif'],[24,'moronews'],[42,'golfcode'],[58,'kyuchat']];popNext=0;camX=clamp(P.x-VW/2,0,WW-VW);camY=clamp(P.y-VH/2,0,WH-VH)}
-function enterLevel(i){snap={U:{...U},plv,xp};loadLevel(i)}
+function enterLevel(i){snap={U:{...U},plv,xp,EB:{...EB}};loadLevel(i)}
 function makeBoss(){const mhp=200+18*plv;const b={x:WW/2,y:WH-430,r:38,hp:mhp,mhp,ph:0,fireT:3.2,n:0,drops:0,tx:WW/2,ty:WH-430,moveT:3,say:'Hei alle sammen!',sayT:4,sayShow:2.4,flash:0,oc:0,dead:false};if(lv.secret)Object.assign(b,{say:'Hei! Vil du se kortene mine?',st:'vis',stT:5,hide:false,r:34});return b}
 const phase=()=>Bo.hp/Bo.mhp>.66?1:Bo.hp/Bo.mhp>.33?2:3;
 function bossAttack(ph){Bo.n++;const a=Math.atan2(P.y-Bo.y,P.x-Bo.x);
@@ -427,7 +428,7 @@ function showPop(type){const el=document.createElement('div');el.className='pop 
   el.innerHTML=(BPOP[type]&&type!=='kyuchat'&&Math.random()<.5?'<button class="fx fl" data-f aria-label="Lukk">✕</button>':'')+POPT[type]()+(U.blocker?'<div class="blk"><i></i></div>':'');
   const psy=P.y-camY+HUD,used=PV.map(p=>p.slot),free=[0,1,2].filter(s=>!used.includes(s)).sort((a,b)=>Math.abs(SLOTY[b]+100-psy)-Math.abs(SLOTY[a]+100-psy)),slot=free[0];
   el.style.left=rnd(20,W-(type==='notif'?272:262))+'px';el.style.top=(SLOTY[slot]+rnd(-8,8))+'px';
-  popsEl.appendChild(el);PV.push({el,type,t:0,slot});fitPop(el);el.querySelectorAll('img').forEach(im=>{if(!im.complete)im.addEventListener('load',()=>fitPop(el),{once:true})});SFX.ad()}
+  popsEl.appendChild(el);PV.push({el,type,t:0,slot});if(Math.random()<.25){const w=el.offsetWidth,h=el.offsetHeight;el.style.left=clamp(P.x-camX-w/2+rnd(-30,30),6,W-w-6)+'px';el.style.top=clamp(psy-h/2+rnd(-30,30),HUD+6,H-h-12)+'px'}fitPop(el);el.querySelectorAll('img').forEach(im=>{if(!im.complete)im.addEventListener('load',()=>fitPop(el),{once:true})});SFX.ad()}
 function fitPop(el){const h=el.offsetHeight,max=H-h-12,top=parseFloat(el.style.top);if(top>max)el.style.top=Math.max(HUD+6,max)+'px'}
 function closePop(p,auto){if(!PV.includes(p))return;p.el.remove();PV=PV.filter(x=>x!==p);st.pop++;SFX.close();
   FL.push({x:clamp(parseFloat(p.el.style.left)+120+camX,camX+70,camX+VW-70),y:parseFloat(p.el.style.top)-HUD+camY+10,t:auto?'blokkert automatisk':'lukket',c:'#0a7f8f',l:1});if(PQ.length)popDelay=.35}
@@ -447,6 +448,8 @@ function cookieSettings(){cookieEl.innerHTML=`<b class="ch">Dine valg</b>
   <div style="height:12px"></div><button class="btn" data-c="all">Godta alle</button><button class="cs wide" data-c="save">Lagre mine valg</button>`}
 cookieEl.addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;const c=b.dataset.c;
   if(c==='set'){cookieSettings();return}
+  if(L===2&&(c==='all'||c==='no')){begin();if(c==='all'){st.cookie=1;plv++;pend++;SFX.lvl();float(P.x,P.y-60,'Takk for samtykket. Her er en oppgradering.','#12a150')}
+    else{tag=2;for(let i=0;i<4;i++)warn('tr',.6+i*.2);float(P.x,P.y-60,'Avvist? Da følger vi deg ekstra godt.','#ff2d95')}return}
   if(c==='all'){st.cookie=1;tag=2;for(let i=0;i<4;i++)warn('tr',.6+i*.2);begin();float(P.x,P.y-60,'847 partnere varslet','#ff2d95');return}
   if(c==='no'){begin();float(P.x,P.y-60,'Godt valg.','#0a7f8f');return}
   if(c==='save'){const n=cookieEl.querySelectorAll('[data-t]:checked').length;for(let i=0;i<n;i++)warn('tr',.6+i*.25);tag=n>2?1:0;begin();
@@ -454,14 +457,17 @@ cookieEl.addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b
 function begin(){cookieEl.hidden=true;mode='play';hintT=L===0?4.5:0}
 
 /* ---------- level-up cards ---------- */
+const OFF=['rate','multi','pierce','dmg'];
+function enemyBuff(){const opts=[['hp','+20 % helse'],['sr','+12 % flere fiender']];if(EB.sp<1.34)opts.push(['sp','+8 % fart']);const [k,t]=opts[Math.random()*opts.length|0];
+  EB[k]*=k==='hp'?1.2:k==='sr'?1.12:1.08;EB.n++;ctrMsg={t:3.2,txt:'Reklamen svarer: '+t}}
 function openLevelUp(){mode='levelup';joy=null;SFX.lvl();
   const pool=UPG.filter(u=>U[u.id]<u.max);for(let i=pool.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[pool[i],pool[j]]=[pool[j],pool[i]]}
   luCards=pool.slice(0,3);
   if(!luCards.length){pend=0;mode='play';return}
   luEl.innerHTML=`<p class="kick">Nivå ${plv}</p><h2>Velg en oppgradering</h2><div class="cards">${luCards.map((u,i)=>{const l=U[u.id];
-    return `<button class="card" data-i="${i}" disabled><span class="chip ${u.c}">${u.g}</span><b>${u.n}</b><span>${u.d(l)}</span><span class="pips">${Array.from({length:u.max},(_,k)=>`<i class="${k<l?'on':k===l?'new':''}"></i>`).join('')}</span></button>`}).join('')}</div>`;
+    return `<button class="card" data-i="${i}" disabled><span class="chip ${u.c}">${u.g}</span><b>${u.n}</b><span>${u.d(l)}${OFF.includes(u.id)?'<em class="ctr">Reklamen svarer med en oppgradering.</em>':''}</span><span class="pips">${Array.from({length:u.max},(_,k)=>`<i class="${k<l?'on':k===l?'new':''}"></i>`).join('')}</span></button>`}).join('')}</div>`;
   luEl.hidden=false;setTimeout(()=>luEl.querySelectorAll('.card').forEach(c=>c.disabled=false),380)}
-function pick(i){const u=luCards[i];if(!u)return;U[u.id]++;if(u.id==='shield'){shieldOK=true;shieldT=0}luEl.hidden=true;pend--;luCards=[];
+function pick(i){const u=luCards[i];if(!u)return;U[u.id]++;if(OFF.includes(u.id))enemyBuff();if(u.id==='shield'){shieldOK=true;shieldT=0}luEl.hidden=true;pend--;luCards=[];
   if(pend>0)openLevelUp();else mode='play'}
 luEl.addEventListener('click',e=>{const c=e.target.closest('.card');if(c&&!c.disabled)pick(+c.dataset.i)});
 
@@ -492,7 +498,7 @@ function showEnd(){mode='end';const ms=Math.round(tot.time*1000);let best=0;try{
   document.getElementById('again').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()});
   {const b=document.getElementById('sgo2');b.addEventListener('click',()=>startSecret(true));if(secretOn()){b.hidden=false;b.textContent='Hemmelig nivå →'}}
   lbSetup(ms)}
-const VERSION='v9';
+const VERSION='v9.1';
 const LB={url:'https://fhdouutorqgdrwjhjdkz.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoZG91dXRvcnFnZHJ3amhqZGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwMTA5NDEsImV4cCI6MjA2NTU4Njk0MX0.nTLlHG44cOtrd6m5uC2WvQ7zRstd3onOzqqe0lnPuU4',table:'adblock_scores'}; /* Supabase: prosjekt-URL og publishable/anon-nøkkel. Tomt = toppliste av. */
 const lbOn=()=>!!(LB.url&&LB.key),lbHead=()=>({apikey:LB.key,Authorization:'Bearer '+LB.key,'Content-Type':'application/json'});
 async function lbTop(n){const r=await fetch(`${LB.url}/rest/v1/${LB.table}?select=name,time_ms&order=time_ms.asc&limit=${n}`,{headers:lbHead()});if(!r.ok)throw new Error(r.status);return r.json()}
@@ -513,7 +519,7 @@ function gameOver(){if(mode==='over')return;mode='over';joy=null;shake=22;SFX.ov
    <div class="stats"><div><span>Side</span><b>${lv.name}.no</b></div><div><span>Tid på siden</span><b>${fmt(clock)}</b></div><div><span>Bot-nivå</span><b>${plv}</b></div>
    <div><span>Pop-ups lukket</span><b>${st.pop}</b></div><div><span>Feil knapper trykket</span><b>${st.fake}</b></div></div>
    <button class="btn" id="retry">Prøv siden på nytt</button><button class="cs wide" id="restart" style="color:#c4ccda;border-color:#2d3546">Start helt på nytt</button>`;clearEl.hidden=false;
-    document.getElementById('retry').addEventListener('click',()=>{clearEl.hidden=true;tot.time+=clock;U={...snap.U};plv=snap.plv;xp=snap.xp;pend=0;loadLevel(L);startCookie()});
+    document.getElementById('retry').addEventListener('click',()=>{clearEl.hidden=true;tot.time+=clock;U={...snap.U};plv=snap.plv;xp=snap.xp;EB={...snap.EB};pend=0;loadLevel(L);startCookie()});
     document.getElementById('restart').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()})},1100)}
 
 /* ---------- input ---------- */
@@ -533,8 +539,8 @@ function spawnPos(){for(let i=0;i<30;i++){const side=Math.random()*4|0;let x,y;
   if(side===0){x=camX-30;y=camY+rnd(0,VH)}else if(side===1){x=camX+VW+30;y=camY+rnd(0,VH)}else if(side===2){x=camX+rnd(0,VW);y=camY-30}else{x=camX+rnd(0,VW);y=camY+VH+30}
   x=clamp(x,14,WW-14);y=clamp(y,74,WH-14);if(Math.hypot(x-P.x,y-P.y)>210)return{x,y}}return{x:14,y:clamp(P.y-300,74,WH-14)}}
 function warn(type,t){WN.push({type,...spawnPos(),t:t||.8,t0:t||.8})}
-function spawn(w){if(w.type==='tr')E.push({type:'tr',x:w.x,y:w.y,r:9,hp:1+Math.floor(clock/70),ph:Math.random()*6,flash:0,oc:0,ball:lv.secret?(Math.random()<.5?'hb':'fb'):null});
-  else{const hp=3+Math.floor(clock/40)+Math.floor(plv/3);E.push({type:'ad',x:w.x,y:w.y,r:22,hp,mhp:hp,ph:Math.random()*6,flash:0,oc:0,txt:AD_TXT[Math.random()*AD_TXT.length|0]});{const e=E[E.length-1];if(lv.secret){e.kloss=true;e.r=16}else e.brand=lv.boss?'lk':nextBrand()}}}
+function spawn(w){if(w.type==='tr')E.push({type:'tr',x:w.x,y:w.y,r:9,hp:Math.ceil((1+Math.floor(clock/70))*EB.hp),ph:Math.random()*6,flash:0,oc:0,ball:lv.secret?(Math.random()<.5?'hb':'fb'):null});
+  else{const hp=Math.ceil((3+Math.floor(clock/40)+Math.floor(plv/3))*EB.hp);E.push({type:'ad',x:w.x,y:w.y,r:22,hp,mhp:hp,ph:Math.random()*6,flash:0,oc:0,txt:AD_TXT[Math.random()*AD_TXT.length|0]});{const e=E[E.length-1];if(lv.secret){e.kloss=true;e.r=16}else e.brand=lv.boss?'lk':nextBrand()}}}
 
 /* ---------- combat ---------- */
 function dmg(e,d){if(e.dead)return;e.hp-=d;e.flash=.08;if(e.hp<=0)kill(e)}
@@ -553,7 +559,7 @@ function hitAd(e){burst(e.x,e.y,['#ffd400','#ff3b30'],12);P.inv=1.4;
 
 /* ---------- update ---------- */
 function update(dt){
-  clock+=dt;hintT=Math.max(0,hintT-dt);introT=Math.max(0,introT-dt);
+  clock+=dt;hintT=Math.max(0,hintT-dt);if(ctrMsg&&(ctrMsg.t-=dt)<=0)ctrMsg=null;introT=Math.max(0,introT-dt);
   let mx=0,my=0;
   if(joy){const dx=joy.x-joy.ox,dy=joy.y-joy.oy,l=Math.hypot(dx,dy);if(l>6){const m=Math.min(1,l/46);mx=dx/l*m;my=dy/l*m}}
   else{if(K.has('ArrowLeft')||K.has('KeyA'))mx--;if(K.has('ArrowRight')||K.has('KeyD'))mx++;if(K.has('ArrowUp')||K.has('KeyW'))my--;if(K.has('ArrowDown')||K.has('KeyS'))my++;
@@ -577,13 +583,13 @@ function update(dt){
   else{if(!popNext)popNext=clock+rnd(24,34);if(clock>=popNext){popNext=clock+rnd(24,34);addPop(lv.boss?'brand':SPONT[Math.random()*SPONT.length|0])}}
   if(mode!=='play')return;
   // spawning
-  const rate=(1+.12*tag)*(1+clock/(lv.boss?220:90))*(1+.08*(plv-1));trT-=dt*rate;adT-=dt*rate;
+  const rate=(1+.12*tag)*(1+clock/(lv.boss?220:90))*(1+.08*(plv-1))*EB.sr;trT-=dt*rate;adT-=dt*rate;
   if(E.length+WN.length<36){if(trT<=0){trT=lv.trI*rnd(.7,1.3);warn('tr');if(Math.random()<.3)warn('tr',1)}if(adT<=0){adT=lv.adI*rnd(.7,1.3);warn('ad')}}
   for(const w of WN){w.t-=dt;if(w.t<=0)spawn(w)}WN=WN.filter(w=>w.t>0);
   // enemies
   for(const e of E){const dx=P.x-e.x,dy=P.y-e.y,d=Math.hypot(dx,dy)||1;e.ph+=dt*4;e.flash=Math.max(0,e.flash-dt);e.oc=Math.max(0,e.oc-dt);
     if(e.kloss){if(e.fuse>0){e.fuse-=dt;if(e.fuse<=0){e.dead=true;klossBoom(e)}continue}if(d<62){e.fuse=.8;SFX.fuse();continue}}
-    const v=e.type==='tr'?112*lv.diff:36*lv.diff*(1+.15*tag),a=Math.atan2(dy,dx)+Math.sin(e.ph)*(e.type==='tr'?.6:.3);
+    const v=(e.type==='tr'?112*lv.diff:36*lv.diff*(1+.15*tag))*EB.sp,a=Math.atan2(dy,dx)+Math.sin(e.ph)*(e.type==='tr'?.6:.3);
     e.x+=Math.cos(a)*v*dt;e.y+=Math.sin(a)*v*dt;
     if(d<e.r+12){if(e.type==='tr'){e.dead=true;hitTracker(e)}else if(P.inv<=0){e.dead=true;hitAd(e)}else{e.x-=dx/d*40*dt*3;e.y-=dy/d*40*dt*3}}}
   // main gun
@@ -930,6 +936,8 @@ function draw(){
   for(const f of FL){ctx.globalAlpha=Math.min(1,f.l*1.8);ctx.lineWidth=3;ctx.strokeStyle='rgba(255,255,255,.9)';ctx.strokeText(f.t,f.x,f.y);ctx.fillStyle=f.c;ctx.fillText(f.t,f.x,f.y)}
   ctx.globalAlpha=1;ctx.textAlign='left';ctx.restore();
   if(mode==='play')drawArrow();drawMinimap();drawBossUI();
+  if(ctrMsg&&mode==='play'){const a=Math.min(1,ctrMsg.t*2,(3.2-ctrMsg.t)*5),y=HUD+(Bo&&!Bo.dead?58:14);ctx.globalAlpha=a;ctx.font='700 13px Rubik,sans-serif';const w=ctx.measureText(ctrMsg.txt).width+36;
+    ctx.fillStyle='rgba(200,16,46,.92)';rr(W/2-w/2,y,w,32,16);ctx.fill();ctx.fillStyle='#fff';ctx.textAlign='center';ctx.fillText(ctrMsg.txt,W/2,y+21);ctx.textAlign='left';ctx.globalAlpha=1}
   if(joy){ctx.fillStyle='rgba(15,181,201,.12)';ctx.strokeStyle='rgba(15,181,201,.45)';ctx.lineWidth=2;circ(joy.ox,joy.oy,46);ctx.fill();ctx.stroke();
     const dx=joy.x-joy.ox,dy=joy.y-joy.oy,l=Math.hypot(dx,dy),m=Math.min(l,46)/(l||1);ctx.fillStyle='rgba(15,181,201,.55)';circ(joy.ox+dx*m,joy.oy+dy*m,20);ctx.fill()}
   if(hintT>0&&mode==='play'){ctx.globalAlpha=Math.min(1,hintT);ctx.fillStyle='rgba(22,27,38,.88)';rr(50,H-58,320,36,18);ctx.fill();
