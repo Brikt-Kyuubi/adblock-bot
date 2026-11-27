@@ -48,6 +48,8 @@ Spilleren styrer en adblock-bot med en flytende joystick (dra hvor som helst) el
 
 - Pause: knapp (`#pbtn`) ved siden av «Lyd», synlig bare når `mode==='play'`. Esc/P og bytte av fane pauser også. Pausemenyen (`openPause`) fremhever de to viktigste reglene (mer enn 5 pop-ups = tap, samle de grønne data-punktene for å åpne knappen øverst) og har «Fortsett» og «Avslutt til hovedmenyen» (`quitToMenu`, nullstiller runden). Klokka står stille i pause.
 
+- BigBoss Korny-brettet er skjult (`KORNY_BOSS=false`). Koden ligger der, men knappene vises ikke. «Spill som Korny» (Leggetid) er bonusbrettet som låses opp på topp 10.
+
 ## Arbeidsflyt
 - Utvikles i Claude-chat, pushes til `main`, GitHub Pages publiserer automatisk.
 - Test i headless Chromium (Playwright) før push. Ingen byggesteg.

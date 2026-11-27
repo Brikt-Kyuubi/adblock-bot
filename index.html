@@ -211,9 +211,9 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
       <li><i class="ic mv"></i>Dra hvor som helst for å styre (WASD på PC). Boten skyter selv.</li>
     </ul>
     <div class="acts"><button class="btn" id="go">Start surfing</button>
-    <div class="srow"><button class="btn sec" id="sgo" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgof" hidden>Spill som Korny</button></div></div>
+    <div class="srow"><button class="btn sec" id="sgo" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgof" hidden>Bonusbrett: spill som Korny</button></div></div>
     <p class="note" id="mbest"></p>
-    <p class="note">v9.7 · all reklamen i spillet er for våre egne prosjekter</p>
+    <p class="note">v9.8 · all reklamen i spillet er for våre egne prosjekter</p>
   </div>
   <div class="screen" id="lu" hidden></div>
   <div class="screen" id="clear" hidden></div>
@@ -245,6 +245,7 @@ const LV=[
  {name:'Nettverket',url:'nettverket.no/in/lagkassabrikt',color:'#1d2939',nav:'Hjem · Nettverk · Meldinger',kind:'feed',boss:true,data:8,trI:2.1,adI:9,diff:1.2,ww:720,wh:1100},
  {name:'KornyKloss',url:'kornykloss.no/hemmelig-nivå',color:'#5b3fa0',nav:'Kort · Mål · Tegninger',kind:'block',boss:true,secret:true,data:8,trI:1.7,adI:4,diff:1.15,ww:720,wh:1300},
  {name:'Leggetid',url:'leggetid.no/nå',color:'#3f5a2c',nav:'Lekser · Leggetid · Nei',kind:'room',boss:true,secret:true,flip:true,data:8,trI:1.6,adI:3.6,diff:1.15,ww:720,wh:1300}];
+const KORNY_BOSS=false;// BigBoss Korny-brettet er skjult foreløpig. Sett til true for å vise det igjen.
 const MAINLV=LV.filter(l=>!l.secret).length,SECRET=LV.findIndex(l=>l.secret&&!l.flip),SECRET2=LV.findIndex(l=>l.flip);
 const FEED=[[40,170,'Glad for å kunne dele at Lagkassa+ fikk en ny kunde i dag.'],[530,190,'Hva bryllupet mitt lærte meg om lagkasser.'],[40,620,'5 ting kassereren lærte meg om livet. Nr. 3: Lagkassa+.'],[530,600,'Kasserer er ikke en tittel. Det er et kall.'],[285,830,'Dag 312 med innlegg om Lagkassa+.']];
 const SAY=['Glad for å kunne dele: Lagkassa+','Hva kan en dugnad lære oss om B2B?','Kasserer er ikke en tittel. Det er et kall.','Ydmyk og takknemlig. Mest Lagkassa+.','Dag 312 med innlegg om Lagkassa+','Enig? Skriv LAGKASSA i kommentarfeltet','Unpopular opinion: regnskapet er fasiten','Følg for mer om klubbøkonomi','Ingen utropstegn. Selv nå.','Jeg ble spurt om mitt beste salgstips'];
@@ -538,12 +539,12 @@ function showEnd(){mode='end';const ms=Math.round(tot.time*1000);let best=0;try{
   clearEl.innerHTML=`<p class="kick">Kyuubi Creative 5 år</p><h2>Fra kaos til klarhet på</h2><div class="big">${fmt(tot.time)}</div><p class="verdict">${pbt}</p>
    <div class="lbw"><div class="lbh"><b>Toppliste</b><span id="lbs"></span></div><form class="lbf" id="lbf"><input id="lbn" maxlength="20" placeholder="Navnet ditt" autocomplete="nickname"><button class="btn sm" type="submit">Send inn</button></form><ol class="lbl" id="lbl"></ol></div>
    <div class="stats"><div><span>Reklame blokkert</span><b>${tot.ad}</b></div><div><span>Pop-ups lukket</span><b>${tot.pop}</b></div><div><span>Bot-nivå</span><b>${plv}</b></div></div>
-   <p class="note" style="margin:0 0 14px;text-align:left">Takk for at du spilte, og for fem år med Kyuubi Creative.</p><div class="acts"><button class="btn" id="again">Spill igjen</button><div class="srow"><button class="btn sec" id="sgo2" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgo2f" hidden>Spill som Korny</button></div></div>`;
+   <p class="note" style="margin:0 0 14px;text-align:left">Takk for at du spilte, og for fem år med Kyuubi Creative.</p><div class="acts"><button class="btn" id="again">Spill igjen</button><div class="srow"><button class="btn sec" id="sgo2" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgo2f" hidden>Bonusbrett: spill som Korny</button></div></div>`;
   clearEl.hidden=false;
   document.getElementById('again').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()});
-  {const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');b.addEventListener('click',()=>startSecret(true,false));f.addEventListener('click',()=>startSecret(true,true));if(secretOn()){b.hidden=false;f.hidden=false}}
+  {const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');b.addEventListener('click',()=>startSecret(true,false));f.addEventListener('click',()=>startSecret(true,true));if(secretOn()){b.hidden=!KORNY_BOSS;f.hidden=false}}
   lbSetup(ms)}
-const VERSION='v9.7';
+const VERSION='v9.8';
 const LB={url:'https://fhdouutorqgdrwjhjdkz.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoZG91dXRvcnFnZHJ3amhqZGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwMTA5NDEsImV4cCI6MjA2NTU4Njk0MX0.nTLlHG44cOtrd6m5uC2WvQ7zRstd3onOzqqe0lnPuU4',table:'adblock_scores'}; /* Supabase: prosjekt-URL og publishable/anon-nøkkel. Tomt = toppliste av. */
 const lbOn=()=>!!(LB.url&&LB.key),lbHead=()=>({apikey:LB.key,Authorization:'Bearer '+LB.key,'Content-Type':'application/json'});
 async function lbTop(n){const r=await fetch(`${LB.url}/rest/v1/${LB.table}?select=name,time_ms&order=time_ms.asc&limit=${n}`,{headers:lbHead()});if(!r.ok)throw new Error(r.status);return r.json()}
@@ -557,7 +558,7 @@ function lbSetup(ms){const f=document.getElementById('lbf'),inp=document.getElem
     try{localStorage.setItem('ab_name',name)}catch(err){}f.querySelector('button').disabled=true;s.textContent='Sender …';
     lbSend(name,ms).then(()=>lbTop(10)).then(l=>{lbRender(l,ol,{name,ms});s.textContent='Du er med';f.hidden=true}).catch(()=>{s.textContent='Kunne ikke sende. Prøv igjen.';f.querySelector('button').disabled=false})})}
 function menuBest(){const el=document.getElementById('mbest');if(!el)return;let best=0;try{best=+localStorage.getItem('ab_best')||0}catch(e){}
-  el.textContent=best?`Din beste tid: ${fmt(best/1000)}`:'Raskeste tid gjennom alle tre sidene vinner.';{const on=secretOn();['sgo','sgof'].forEach(id=>{const sg=document.getElementById(id);if(sg)sg.hidden=!on})}
+  el.textContent=best?`Din beste tid: ${fmt(best/1000)}`:'Raskeste tid gjennom alle tre sidene vinner.';{const on=secretOn();[['sgo',KORNY_BOSS],['sgof',true]].forEach(([id,ok])=>{const sg=document.getElementById(id);if(sg)sg.hidden=!(on&&ok)})}
   if(lbOn())lbTop(1).then(l=>{if(l[0])el.textContent+=` · Rekord: ${fmt(l[0].time_ms/1000)} (${l[0].name})`}).catch(()=>{})}
 function gameOver(){if(mode==='over')return;mode='over';joy=null;shake=22;SFX.over();FL.push({x:clamp(P.x,camX+90,camX+VW-90),y:P.y-44,t:'NETTLESEREN KRASJET',c:'#e3120b',l:1.6});
   setTimeout(()=>{clearPops();clearEl.innerHTML=`<p class="kick">Nettleseren krasjet</p><h2>Game over</h2><p class="verdict">Mer enn 5 pop-ups på én gang. Internett vant denne runden.</p>
@@ -700,7 +701,7 @@ const BALL_TXT=['Redning!','Blokk!','Utenfor','Over mål'];
 SFX.vanish=()=>tone(640,.35,'sine',.05,110);SFX.appear=()=>tone(170,.22,'triangle',.07,560);SFX.fuse=()=>tone(1300,.45,'square',.012,1700);SFX.lick=()=>{tone(300,.12,'sawtooth',.04,520);tone(520,.1,'sawtooth',.03,260,.12)};
 const secretOn=()=>{try{return localStorage.getItem('ab_secret')==='1'}catch(e){return false}};
 function secretCheck(ms,l){if(!(l.length<10||ms<=l[l.length-1].time_ms))return;try{localStorage.setItem('ab_secret','1')}catch(e){}
-  const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');if(b&&b.hidden){b.hidden=false;f.hidden=false;SFX.lvl()}}
+  const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');if(b&&b.hidden){b.hidden=!KORNY_BOSS;f.hidden=false;SFX.lvl()}}
 function startSecret(keep,flip){darkT=0;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)()}catch(e){AC=null}
   menuEl.hidden=true;clearEl.hidden=true;if(!keep){newRun();plv=8;pend=7}else pend=0;enterLevel(flip?SECRET2:SECRET);begin()}
 document.getElementById('sgo').addEventListener('click',()=>startSecret(false,false));document.getElementById('sgof').addEventListener('click',()=>startSecret(false,true));
