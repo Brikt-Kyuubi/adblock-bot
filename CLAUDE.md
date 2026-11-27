@@ -54,6 +54,8 @@ Spilleren styrer en adblock-bot med en flytende joystick (dra hvor som helst) el
 
 - Pop-up-lag: hver `.pop` har `isolation:isolate` og økende `z-index` (`popZ`), ellers kan det falske krysset (`.fx`, z-index 2) på en bakre pop-up legge seg over en fremre (Safari-feil i v9.9).
 
+- Ekte lukkeknapper (`[data-r]` i `.pop`) har usynlig utvidet trykkflate (`::after` med negativ inset, 10–14 px) og ligger over søsken-elementer (z-index 1). Det falske krysset (`.fx`, z-index 2) vinner fortsatt der de overlapper.
+
 ## Arbeidsflyt
 - Utvikles i Claude-chat, pushes til `main`, GitHub Pages publiserer automatisk.
 - Test i headless Chromium (Playwright) før push. Ingen byggesteg.

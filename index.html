@@ -40,7 +40,10 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
 .pb p{margin:0 0 10px;font-size:13px;line-height:1.35}
 .cta{font:800 15px Rubik,sans-serif;border:0;border-radius:24px;padding:11px 24px;background:#e3120b;color:#fff;box-shadow:0 4px 0 #8f0b07;cursor:pointer;animation:pulse 1s infinite}
 .fx{position:absolute;z-index:2;top:-16px;right:-16px;width:44px;height:44px;border-radius:50%;border:3px solid #fff;background:#e3120b;color:#fff;font:800 20px Rubik,sans-serif;box-shadow:0 4px 12px rgba(0,0,0,.3);cursor:pointer}
-.rx{width:28px;height:24px;border:0;background:none;color:#b0b6c2;font:400 16px Rubik,sans-serif;padding:0;cursor:pointer}
+.pop [data-r]{position:relative;z-index:1}
+.pop [data-r]::after{content:'';position:absolute;inset:-10px}
+.pop :is(.rx,.rx2,.nl,.nl2,.kno,.lnig)[data-r]::after{inset:-14px -12px}
+.rx{width:30px;height:28px;border:0;background:none;color:#a3aab8;font:400 19px Rubik,sans-serif;padding:0;cursor:pointer}
 .pf{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:30px;padding:0 8px 4px;font-size:10px;color:#a0a7b4}
 .nl{border:0;background:none;color:#a0a7b4;font:400 10px Rubik,sans-serif;text-decoration:underline;padding:7px 0;cursor:pointer}
 .skip{border:0;border-radius:6px;background:#141414;color:#fff;font:600 12px Rubik,sans-serif;padding:7px 10px;cursor:pointer}
@@ -120,7 +123,7 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
 .ic.pp{border-radius:3px;background:#fff;border:2px solid #c9d2e3;border-top:5px solid #e3120b;width:18px;height:16px}
 .pop .bph{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 8px 6px 14px}
 .pop .bph img{height:30px;width:auto;display:block}
-.rx2{border:0;background:none;font:400 22px/1 sans-serif;color:inherit;opacity:.45;width:32px;height:32px;cursor:pointer;flex:none}
+.rx2{border:0;background:none;font:400 22px/1 sans-serif;color:inherit;opacity:.55;width:34px;height:34px;cursor:pointer;flex:none}
 .pop .bb{padding:2px 16px 16px}
 .pop .bb p{margin:0 0 12px;font-size:13px;line-height:1.45}
 .nl2{border:0;background:none;color:inherit;opacity:.7;font:inherit;font-size:11px;text-decoration:underline;padding:8px 0 0;cursor:pointer}
@@ -216,7 +219,7 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
     <div class="acts"><button class="btn" id="go">Start surfing</button>
     <div class="srow"><button class="btn ghost" id="tbtn">Toppliste</button><button class="btn sec" id="sgo" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgof" hidden>Bonusbrett: spill som Korny</button></div></div>
     <p class="note" id="mbest"></p>
-    <p class="note">v9.10 · all reklamen i spillet er for våre egne prosjekter</p>
+    <p class="note">v9.11 · all reklamen i spillet er for våre egne prosjekter</p>
   </div>
   <div class="screen" id="lu" hidden></div>
   <div class="screen" id="clear" hidden></div>
@@ -561,7 +564,7 @@ function showEnd(){mode='end';const ms=Math.round(tot.time*1000);let best=0;try{
   document.getElementById('again').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()});
   {const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');b.addEventListener('click',()=>startSecret(true,false));f.addEventListener('click',()=>startSecret(true,true));if(secretOn()){b.hidden=!KORNY_BOSS;f.hidden=false}}
   lbSetup(ms)}
-const VERSION='v9.10';
+const VERSION='v9.11';
 const LB={url:'https://fhdouutorqgdrwjhjdkz.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoZG91dXRvcnFnZHJ3amhqZGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwMTA5NDEsImV4cCI6MjA2NTU4Njk0MX0.nTLlHG44cOtrd6m5uC2WvQ7zRstd3onOzqqe0lnPuU4',table:'adblock_scores'}; /* Supabase: prosjekt-URL og publishable/anon-nøkkel. Tomt = toppliste av. */
 const lbOn=()=>!!(LB.url&&LB.key),lbHead=()=>({apikey:LB.key,Authorization:'Bearer '+LB.key,'Content-Type':'application/json'});
 async function lbTop(n){const r=await fetch(`${LB.url}/rest/v1/${LB.table}?select=name,time_ms&order=time_ms.asc&limit=${n}`,{headers:lbHead()});if(!r.ok)throw new Error(r.status);return r.json()}
