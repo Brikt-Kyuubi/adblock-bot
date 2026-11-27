@@ -31,7 +31,7 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
 .btn.ghost{background:rgba(255,255,255,.14);box-shadow:none;margin-top:10px}
 #mute.off{opacity:.55;text-decoration:line-through}
 #pops{position:absolute;inset:0;pointer-events:none;z-index:3}
-.pop{position:absolute;width:240px;background:#fff;color:#141414;border-radius:12px;box-shadow:0 14px 40px rgba(0,0,0,.38);pointer-events:auto;animation:popin .24s cubic-bezier(.3,1.6,.5,1)}
+.pop{position:absolute;z-index:1;isolation:isolate;width:240px;background:#fff;color:#141414;border-radius:12px;box-shadow:0 14px 40px rgba(0,0,0,.38);pointer-events:auto;animation:popin .24s cubic-bezier(.3,1.6,.5,1)}
 .pop.shake{animation:shake .3s}
 .ph{display:flex;align-items:center;justify-content:space-between;height:26px;padding:0 34px 0 8px;font-size:10px;color:#8b93a3;border-bottom:1px solid #eee}
 .ph .cnt{font-weight:700;color:#e3120b}
@@ -216,7 +216,7 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
     <div class="acts"><button class="btn" id="go">Start surfing</button>
     <div class="srow"><button class="btn ghost" id="tbtn">Toppliste</button><button class="btn sec" id="sgo" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgof" hidden>Bonusbrett: spill som Korny</button></div></div>
     <p class="note" id="mbest"></p>
-    <p class="note">v9.9 · all reklamen i spillet er for våre egne prosjekter</p>
+    <p class="note">v9.10 · all reklamen i spillet er for våre egne prosjekter</p>
   </div>
   <div class="screen" id="lu" hidden></div>
   <div class="screen" id="clear" hidden></div>
@@ -370,7 +370,7 @@ const UPG=[
 
 /* ---------- state ---------- */
 let mode='menu',L=0,lv=LV[0],blocks=[],P,E=[],B=[],PT=[],FL=[],WN=[],D=[],G=[],RG=[],got=0,exitOpen=false,tag=0,tagT=0,trT=2,adT=4,fireT=0,shake=0,clock=0,aim=-Math.PI/2,hintT=0,joy=null,st,tot;
-let EB={hp:1,sp:1,sr:1,n:0},ctrMsg=null,MG=null,Bo=null,BP=[],bossT=0,introT=0,dataTotal=0,U,plv=1,xp=0,pend=0,orbA=0,pulseT=2,shieldOK=true,shieldT=0,PV=[],PQ=[],popDelay=-1,popSched=[],popNext=0,snap=null,decor=[],camX=0,camY=0,luCards=[];
+let popZ=1,EB={hp:1,sp:1,sr:1,n:0},ctrMsg=null,MG=null,Bo=null,BP=[],bossT=0,introT=0,dataTotal=0,U,plv=1,xp=0,pend=0,orbA=0,pulseT=2,shieldOK=true,shieldT=0,PV=[],PQ=[],popDelay=-1,popSched=[],popNext=0,snap=null,decor=[],camX=0,camY=0,luCards=[];
 const K=new Set();
 function newRun(){EB={hp:1,sp:1,sr:1,n:0};tot={tr:0,ad:0,pop:0,fake:0,time:0,score:0,levels:0};U={};UPG.forEach(u=>U[u.id]=0);plv=1;xp=0;pend=0}
 const need=()=>Math.round(4+plv*3+plv*plv*.35);
@@ -483,7 +483,7 @@ function openBoard(){menuEl.hidden=true;let best=0,me='';try{best=+localStorage.
     .catch(()=>{st.textContent='';ol.innerHTML='<li><span>Fikk ikke hentet topplisten</span></li>'})}
 document.getElementById('tbtn').addEventListener('click',openBoard);
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&mode==='play')openPause()});
-function clearPops(){popsEl.innerHTML='';PV=[];PQ=[];popDelay=-1}
+function clearPops(){popZ=1;popsEl.innerHTML='';PV=[];PQ=[];popDelay=-1}
 function addPop(type){if(mode!=='play')return;if(type==='brand')type=lv.flip?pickR(TROLLP):lv.secret?KIDP[Math.random()*KIDP.length|0]:lv.boss?['lk','brikt','briktdm'][Math.random()*3|0]:nextBrand();PQ.push(type);const t=popTotal();
   if(t>5){gameOver();return}if(t===5)float(P.x,P.y-44,'Én pop-up til = krasj!','#e3120b');else if(t===4)float(P.x,P.y-44,'Nettleseren sliter …','#e3120b');fillPops()}
 function fillPops(){while(PV.length<3&&PQ.length&&mode==='play')showPop(PQ.shift())}
@@ -491,7 +491,7 @@ function showPop(type){const el=document.createElement('div');el.className='pop 
   el.innerHTML=(BPOP[type]&&type!=='kyuchat'&&Math.random()<.5?'<button class="fx fl" data-f aria-label="Lukk">✕</button>':'')+POPT[type]()+(U.blocker?'<div class="blk"><i></i></div>':'');
   const psy=P.y-camY+HUD,used=PV.map(p=>p.slot),free=[0,1,2].filter(s=>!used.includes(s)).sort((a,b)=>Math.abs(SLOTY[b]+100-psy)-Math.abs(SLOTY[a]+100-psy)),slot=free[0];
   el.style.left=rnd(20,W-(type==='notif'?272:262))+'px';el.style.top=(SLOTY[slot]+rnd(-8,8))+'px';
-  popsEl.appendChild(el);PV.push({el,type,t:0,slot});if(Math.random()<.25){const w=el.offsetWidth,h=el.offsetHeight;el.style.left=clamp(P.x-camX-w/2+rnd(-30,30),6,W-w-6)+'px';el.style.top=clamp(psy-h/2+rnd(-30,30),HUD+6,H-h-12)+'px'}fitPop(el);el.querySelectorAll('img').forEach(im=>{if(!im.complete)im.addEventListener('load',()=>fitPop(el),{once:true})});SFX.ad()}
+  el.style.zIndex=++popZ;popsEl.appendChild(el);PV.push({el,type,t:0,slot});if(Math.random()<.25){const w=el.offsetWidth,h=el.offsetHeight;el.style.left=clamp(P.x-camX-w/2+rnd(-30,30),6,W-w-6)+'px';el.style.top=clamp(psy-h/2+rnd(-30,30),HUD+6,H-h-12)+'px'}fitPop(el);el.querySelectorAll('img').forEach(im=>{if(!im.complete)im.addEventListener('load',()=>fitPop(el),{once:true})});SFX.ad()}
 function fitPop(el){const h=el.offsetHeight,max=H-h-12,top=parseFloat(el.style.top);if(top>max)el.style.top=Math.max(HUD+6,max)+'px'}
 function closePop(p,auto){if(!PV.includes(p))return;p.el.remove();PV=PV.filter(x=>x!==p);st.pop++;SFX.close();
   FL.push({x:clamp(parseFloat(p.el.style.left)+120+camX,camX+70,camX+VW-70),y:parseFloat(p.el.style.top)-HUD+camY+10,t:auto?'blokkert automatisk':'lukket',c:'#0a7f8f',l:1});if(PQ.length)popDelay=.35}
@@ -561,7 +561,7 @@ function showEnd(){mode='end';const ms=Math.round(tot.time*1000);let best=0;try{
   document.getElementById('again').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()});
   {const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');b.addEventListener('click',()=>startSecret(true,false));f.addEventListener('click',()=>startSecret(true,true));if(secretOn()){b.hidden=!KORNY_BOSS;f.hidden=false}}
   lbSetup(ms)}
-const VERSION='v9.9';
+const VERSION='v9.10';
 const LB={url:'https://fhdouutorqgdrwjhjdkz.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoZG91dXRvcnFnZHJ3amhqZGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwMTA5NDEsImV4cCI6MjA2NTU4Njk0MX0.nTLlHG44cOtrd6m5uC2WvQ7zRstd3onOzqqe0lnPuU4',table:'adblock_scores'}; /* Supabase: prosjekt-URL og publishable/anon-nøkkel. Tomt = toppliste av. */
 const lbOn=()=>!!(LB.url&&LB.key),lbHead=()=>({apikey:LB.key,Authorization:'Bearer '+LB.key,'Content-Type':'application/json'});
 async function lbTop(n){const r=await fetch(`${LB.url}/rest/v1/${LB.table}?select=name,time_ms&order=time_ms.asc&limit=${n}`,{headers:lbHead()});if(!r.ok)throw new Error(r.status);return r.json()}

@@ -52,6 +52,8 @@ Spilleren styrer en adblock-bot med en flytende joystick (dra hvor som helst) el
 
 - Toppliste-knapp i hovedmenyen (`#tbtn`) åpner `#board` (`openBoard`): topp 20 fra Supabase, egen beste tid på enheten, «Start surfing» og «Tilbake».
 
+- Pop-up-lag: hver `.pop` har `isolation:isolate` og økende `z-index` (`popZ`), ellers kan det falske krysset (`.fx`, z-index 2) på en bakre pop-up legge seg over en fremre (Safari-feil i v9.9).
+
 ## Arbeidsflyt
 - Utvikles i Claude-chat, pushes til `main`, GitHub Pages publiserer automatisk.
 - Test i headless Chromium (Playwright) før push. Ingen byggesteg.
