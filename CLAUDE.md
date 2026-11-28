@@ -56,6 +56,9 @@ Spilleren styrer en adblock-bot med en flytende joystick (dra hvor som helst) el
 
 - Ekte lukkeknapper (`[data-r]` i `.pop`) har usynlig utvidet trykkflate (`::after` med negativ inset, 10–14 px) og ligger over søsken-elementer (z-index 1). Det falske krysset (`.fx`, z-index 2) vinner fortsatt der de overlapper.
 
+- Anonym statistikk: tabell `adblock_events` (AddUp), kun insert for anon (ingen lesing). `track(ev)` sender `run_id` (tilfeldig per runde, lagres ikke på enheten), `event`, `level`, `ms`, `device` (mobil/pc), `version`. Hendelser: start, level, retry, gameover, quit (pausemeny), leave (lukket siden midt i runde), finish, bonus_start, bonus_finish. Runder uten avsluttende hendelse = forlatt. Ingen navn, IP eller cookies, derfor ingen samtykkebanner.
+  Trakt: `select count(distinct run_id) filter (where event='start') startet, count(distinct run_id) filter (where event='level' and level=2) side2, count(distinct run_id) filter (where event='level' and level=3) side3, count(distinct run_id) filter (where event='finish') fullfort from adblock_events;`
+
 ## Arbeidsflyt
 - Utvikles i Claude-chat, pushes til `main`, GitHub Pages publiserer automatisk.
 - Test i headless Chromium (Playwright) før push. Ingen byggesteg.

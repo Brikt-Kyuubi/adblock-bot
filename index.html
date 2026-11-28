@@ -219,7 +219,7 @@ canvas{position:absolute;inset:0;width:420px;height:760px;display:block;touch-ac
     <div class="acts"><button class="btn" id="go">Start surfing</button>
     <div class="srow"><button class="btn ghost" id="tbtn">Toppliste</button><button class="btn sec" id="sgo" hidden>Mot BigBoss Korny</button><button class="btn sec" id="sgof" hidden>Bonusbrett: spill som Korny</button></div></div>
     <p class="note" id="mbest"></p>
-    <p class="note">v9.11 · all reklamen i spillet er for våre egne prosjekter</p>
+    <p class="note">v9.12 · all reklamen i spillet er for våre egne prosjekter</p>
   </div>
   <div class="screen" id="lu" hidden></div>
   <div class="screen" id="clear" hidden></div>
@@ -418,7 +418,7 @@ function placeData(n){const out=[];let tries=0;
 function loadLevel(i){L=i;lv=LV[i];WW=lv.ww||720;WH=lv.wh||1700;{const pg=genPage(lv.kind);blocks=pg.ads;decor=pg.dec}P={x:WW/2,y:WH-60,slow:0,flash:0,inv:0};E=[];B=[];PT=[];FL=[];WN=[];G=[];RG=[];D=lv.boss?[]:placeData(lv.data);dataTotal=lv.boss?lv.data:D.length;Bo=lv.boss?makeBoss():null;BP=[];bossT=0;introT=lv.boss?3:0;MG=null;
   got=0;exitOpen=false;tag=0;tagT=0;trT=2.2;adT=5;clock=0;joy=null;shieldOK=true;shieldT=0;pulseT=2;
   st={tr:0,ad:0,pop:0,fake:0,trHit:0,adHit:0,cookie:0,boss:0,blk:0};clearPops();popSched=lv.flip?[[8,'lekser'],[22,'leggetid'],[36,'ipad'],[50,'nei']]:lv.secret?[[8,'tegning'],[24,'kort'],[40,'maal']]:lv.boss?[[12,'brikt'],[34,'briktdm']]:[[7,'notif'],[24,'moronews'],[42,'golfcode'],[58,'kyuchat']];popNext=0;camX=clamp(P.x-VW/2,0,WW-VW);camY=clamp(P.y-VH/2,0,WH-VH)}
-function enterLevel(i){snap={U:{...U},plv,xp,EB:{...EB}};loadLevel(i)}
+function enterLevel(i){snap={U:{...U},plv,xp,EB:{...EB}};loadLevel(i);if(i>0&&!LV[i].secret)track('level',{level:i+1})}
 function makeBoss(){const mhp=200+18*plv;const b={x:WW/2,y:WH-430,r:38,hp:mhp,mhp,ph:0,fireT:3.2,n:0,drops:0,tx:WW/2,ty:WH-430,moveT:3,say:'Hei alle sammen!',sayT:4,sayShow:2.4,flash:0,oc:0,dead:false};if(lv.flip)Object.assign(b,{say:'Har du gjort leksene?',r:40,lightT:9});else if(lv.secret)Object.assign(b,{say:'Hei! Vil du se kortene mine?',st:'vis',stT:5,hide:false,r:34});return b}
 const phase=()=>Bo.hp/Bo.mhp>.66?1:Bo.hp/Bo.mhp>.33?2:3;
 function bossAttack(ph){Bo.n++;const a=Math.atan2(P.y-Bo.y,P.x-Bo.x);
@@ -470,7 +470,7 @@ function openPause(){if(mode!=='play')return;mode='pause';joy=null;K.clear();
   document.getElementById('presume').addEventListener('click',closePause);
   document.getElementById('pquit').addEventListener('click',quitToMenu)}
 function closePause(){if(mode!=='pause')return;pauseEl.hidden=true;popsEl.style.visibility='';joy=null;mode='play'}
-function quitToMenu(){pauseEl.hidden=true;popsEl.style.visibility='';clearPops();cookieEl.hidden=true;luEl.hidden=true;clearEl.hidden=true;darkT=0;joy=null;newRun();loadLevel(0);mode='menu';menuEl.hidden=false;menuEl.scrollTop=0;menuBest()}
+function quitToMenu(){track('quit');pauseEl.hidden=true;popsEl.style.visibility='';clearPops();cookieEl.hidden=true;luEl.hidden=true;clearEl.hidden=true;darkT=0;joy=null;newRun();loadLevel(0);mode='menu';menuEl.hidden=false;menuEl.scrollTop=0;menuBest()}
 pbtn.addEventListener('click',openPause);
 const boardEl=document.getElementById('board');
 function openBoard(){menuEl.hidden=true;let best=0,me='';try{best=+localStorage.getItem('ab_best')||0;me=localStorage.getItem('ab_name')||''}catch(e){}
@@ -537,9 +537,18 @@ function pick(i){const u=luCards[i];if(!u)return;U[u.id]++;if(OFF.includes(u.id)
   if(pend>0)openLevelUp();else mode='play'}
 luEl.addEventListener('click',e=>{const c=e.target.closest('.card');if(c&&!c.disabled)pick(+c.dataset.i)});
 
+/* ---------- anonym spillstatistikk (ingen navn, ingen lagring på enheten) ---------- */
+const RUN={id:null,end:false},DEV=(matchMedia&&matchMedia('(pointer:coarse)').matches)?'mobil':'pc';
+const uuid=()=>crypto.randomUUID?crypto.randomUUID():'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return(c==='x'?r:r&3|8).toString(16)});
+function track(ev,o={}){try{if(!LB.url)return;if(ev==='start'||ev==='bonus_start'){RUN.id=uuid();RUN.end=false}if(!RUN.id)return;
+  if(['finish','bonus_finish','quit','leave'].includes(ev))RUN.end=true;
+  const ms=Math.round(clamp(o.ms??((lv&&lv.secret?0:tot.time)+clock)*1000,0,7199999));
+  fetch(`${LB.url}/rest/v1/adblock_events`,{method:'POST',keepalive:true,headers:{...lbHead(),Prefer:'return=minimal'},
+    body:JSON.stringify({run_id:RUN.id,event:ev,level:o.level??(L+1),ms,device:DEV,version:VERSION})}).catch(()=>{})}catch(e){}}
+addEventListener('pagehide',()=>{if(RUN.id&&!RUN.end&&['play','pause','levelup','cookie','over','clear'].includes(mode))track('leave')});
 /* ---------- screens ---------- */
 document.getElementById('go').addEventListener('click',()=>{try{AC=AC||new (window.AudioContext||window.webkitAudioContext)()}catch(err){AC=null}
-  menuEl.hidden=true;newRun();enterLevel(0);startCookie()});
+  menuEl.hidden=true;newRun();enterLevel(0);track('start',{level:1,ms:0});startCookie()});
 function score(){return clamp(100-st.trHit*4-st.adHit*6-st.fake*5-st.cookie*15,0,100)}
 function verdict(sc){return sc>=85?'Ren sti. Ingen vet at du var her.':sc>=60?'Litt sporet, men fortsatt anonym-ish.':sc>=30?'Annonsørene vet hva du spiste til frokost.':'Du er nå målgruppe for alt.'}
 function build(){return UPG.filter(u=>U[u.id]).map(u=>u.n+(U[u.id]>1?' '+U[u.id]:'')).join(', ')||'Ingen ennå'}
@@ -553,7 +562,7 @@ function levelClear(){if(lv.secret){secretClear();return}mode='clear';clearPops(
    <button class="btn" id="nx">${last?'Se resultat':'Neste side →'}</button>`;
   clearEl.hidden=false;
   document.getElementById('nx').addEventListener('click',()=>{if(last){showEnd();return}clearEl.hidden=true;enterLevel(L+1);startCookie()})}
-function showEnd(){mode='end';const ms=Math.round(tot.time*1000);let best=0;try{best=+localStorage.getItem('ab_best')||0}catch(e){}
+function showEnd(){mode='end';const ms=Math.round(tot.time*1000);track('finish',{level:3,ms});let best=0;try{best=+localStorage.getItem('ab_best')||0}catch(e){}
   const pb=!best||ms<best;if(pb)try{localStorage.setItem('ab_best',ms)}catch(e){}
   const pbt=!best?'Første gang gjennom. Nå er det bare å slå den.':pb?`Ny personlig rekord. Forrige: ${fmt(best/1000)}.`:`Personlig rekord: ${fmt(best/1000)}.`;
   clearEl.innerHTML=`<p class="kick">Kyuubi Creative 5 år</p><h2>Fra kaos til klarhet på</h2><div class="big">${fmt(tot.time)}</div><p class="verdict">${pbt}</p>
@@ -564,7 +573,7 @@ function showEnd(){mode='end';const ms=Math.round(tot.time*1000);let best=0;try{
   document.getElementById('again').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()});
   {const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');b.addEventListener('click',()=>startSecret(true,false));f.addEventListener('click',()=>startSecret(true,true));if(secretOn()){b.hidden=!KORNY_BOSS;f.hidden=false}}
   lbSetup(ms)}
-const VERSION='v9.11';
+const VERSION='v9.12';
 const LB={url:'https://fhdouutorqgdrwjhjdkz.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoZG91dXRvcnFnZHJ3amhqZGt6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAwMTA5NDEsImV4cCI6MjA2NTU4Njk0MX0.nTLlHG44cOtrd6m5uC2WvQ7zRstd3onOzqqe0lnPuU4',table:'adblock_scores'}; /* Supabase: prosjekt-URL og publishable/anon-nøkkel. Tomt = toppliste av. */
 const lbOn=()=>!!(LB.url&&LB.key),lbHead=()=>({apikey:LB.key,Authorization:'Bearer '+LB.key,'Content-Type':'application/json'});
 async function lbTop(n){const r=await fetch(`${LB.url}/rest/v1/${LB.table}?select=name,time_ms&order=time_ms.asc&limit=${n}`,{headers:lbHead()});if(!r.ok)throw new Error(r.status);return r.json()}
@@ -580,13 +589,13 @@ function lbSetup(ms){const f=document.getElementById('lbf'),inp=document.getElem
 function menuBest(){const el=document.getElementById('mbest');if(!el)return;let best=0;try{best=+localStorage.getItem('ab_best')||0}catch(e){}
   el.textContent=best?`Din beste tid: ${fmt(best/1000)}`:'Raskeste tid gjennom alle tre sidene vinner.';{const on=secretOn();[['sgo',KORNY_BOSS],['sgof',true]].forEach(([id,ok])=>{const sg=document.getElementById(id);if(sg)sg.hidden=!(on&&ok)})}
   if(lbOn())lbTop(1).then(l=>{if(l[0])el.textContent+=` · Rekord: ${fmt(l[0].time_ms/1000)} (${l[0].name})`}).catch(()=>{})}
-function gameOver(){if(mode==='over')return;mode='over';joy=null;shake=22;SFX.over();FL.push({x:clamp(P.x,camX+90,camX+VW-90),y:P.y-44,t:'NETTLESEREN KRASJET',c:'#e3120b',l:1.6});
+function gameOver(){if(mode==='over')return;track('gameover');mode='over';joy=null;shake=22;SFX.over();FL.push({x:clamp(P.x,camX+90,camX+VW-90),y:P.y-44,t:'NETTLESEREN KRASJET',c:'#e3120b',l:1.6});
   setTimeout(()=>{clearPops();clearEl.innerHTML=`<p class="kick">Nettleseren krasjet</p><h2>Game over</h2><p class="verdict">Mer enn 5 pop-ups på én gang. Internett vant denne runden.</p>
    <div class="stats"><div><span>Side</span><b>${lv.name}.no</b></div><div><span>Tid på siden</span><b>${fmt(clock)}</b></div><div><span>Bot-nivå</span><b>${plv}</b></div>
    <div><span>Pop-ups lukket</span><b>${st.pop}</b></div><div><span>Feil knapper trykket</span><b>${st.fake}</b></div></div>
    <button class="btn" id="retry">Prøv siden på nytt</button><button class="cs wide" id="restart" style="color:#c4ccda;border-color:#2d3546">Start helt på nytt</button>`;clearEl.hidden=false;
-    document.getElementById('retry').addEventListener('click',()=>{clearEl.hidden=true;tot.time+=clock;U={...snap.U};plv=snap.plv;xp=snap.xp;EB={...snap.EB};pend=0;loadLevel(L);startCookie()});
-    document.getElementById('restart').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);startCookie()})},1100)}
+    document.getElementById('retry').addEventListener('click',()=>{clearEl.hidden=true;tot.time+=clock;track('retry',{ms:tot.time*1000});U={...snap.U};plv=snap.plv;xp=snap.xp;EB={...snap.EB};pend=0;loadLevel(L);startCookie()});
+    document.getElementById('restart').addEventListener('click',()=>{clearEl.hidden=true;newRun();enterLevel(0);track('start',{level:1,ms:0});startCookie()})},1100)}
 
 /* ---------- input ---------- */
 function toLocal(e){const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)/s,y:(e.clientY-r.top)/s}}
@@ -723,9 +732,9 @@ const secretOn=()=>{try{return localStorage.getItem('ab_secret')==='1'}catch(e){
 function secretCheck(ms,l){if(!(l.length<10||ms<=l[l.length-1].time_ms))return;try{localStorage.setItem('ab_secret','1')}catch(e){}
   const b=document.getElementById('sgo2'),f=document.getElementById('sgo2f');if(b&&b.hidden){b.hidden=!KORNY_BOSS;f.hidden=false;SFX.lvl()}}
 function startSecret(keep,flip){darkT=0;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)()}catch(e){AC=null}
-  menuEl.hidden=true;clearEl.hidden=true;if(!keep){newRun();plv=8;pend=7}else pend=0;enterLevel(flip?SECRET2:SECRET);begin()}
+  menuEl.hidden=true;clearEl.hidden=true;if(!keep){newRun();plv=8;pend=7}else pend=0;enterLevel(flip?SECRET2:SECRET);track('bonus_start',{level:(flip?SECRET2:SECRET)+1,ms:0});begin()}
 document.getElementById('sgo').addEventListener('click',()=>startSecret(false,false));document.getElementById('sgof').addEventListener('click',()=>startSecret(false,true));
-function secretClear(){mode='clear';clearPops();joy=null;SFX.open();const ms=Math.round(clock*1000),fl=!!lv.flip,BK=fl?'ab_tbest':'ab_kbest';let best=0;try{best=+localStorage.getItem(BK)||0}catch(e){}
+function secretClear(){track('bonus_finish',{ms:clock*1000});mode='clear';clearPops();joy=null;SFX.open();const ms=Math.round(clock*1000),fl=!!lv.flip,BK=fl?'ab_tbest':'ab_kbest';let best=0;try{best=+localStorage.getItem(BK)||0}catch(e){}
   const pb=!best||ms<best;if(pb)try{localStorage.setItem(BK,ms)}catch(e){}
   clearEl.innerHTML=`<p class="kick">Hemmelig nivå</p><h2>${fl?'Fotballene er hentet':'BigBoss Korny er slått'}</h2><div class="big">${fmt(clock)}</div><p class="verdict">${!best?(fl?'Første seier over trollet.':'Første seier over Korny.'):pb?`Ny rekord. Forrige: ${fmt(best/1000)}.`:`Din rekord: ${fmt(best/1000)}.`}</p>
    <div class="stats"><div><span>${fl?'Lekser levert':'Klosser knust'}</span><b>${st.ad}</b></div><div><span>${fl?'zZZ jaget bort':'Baller stoppet'}</span><b>${st.tr}</b></div><div><span>Ganger truffet</span><b>${st.trHit+st.adHit}</b></div><div><span>Pop-ups lukket</span><b>${st.pop}</b></div></div>
